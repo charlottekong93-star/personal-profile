@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>陈翠萍 · AI Agent 产品运营</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-elevated: #F4F2EC;
+    --ink: #1A1A1A;
+    --ink-soft: #3D3D3A;
+    --muted: #6B6B66;
+    --muted-soft: #9A9A93;
+    --line: #E6E3DB;
+    --line-strong: #D4D0C4;
+    --bg-warm: #E8DDD0;
+    --accent: oklch(0.62 0.13 155);       /* sage green */
+    --accent-soft: oklch(0.92 0.05 155);
+    --accent-ink: oklch(0.38 0.08 155);
+    --serif: "Instrument Serif", "Noto Serif SC", Georgia, serif;
+    --sans: "Plus Jakarta Sans", "Noto Sans SC", -apple-system, system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- layout ---------- */
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 720px) {
+    .wrap { padding: 0 24px; }
+  }
+
+  /* ---------- top nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250, 249, 246, 0.85);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .25s ease;
+  }
+  .nav.scrolled { border-bottom-color: var(--line); }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-mark {
+    font-family: var(--sans);
+    font-size: 22px;
+    letter-spacing: 0.01em;
+    font-style: normal;
+  }
+  .nav-links {
+    display: flex; gap: 28px;
+    font-size: 14px; color: var(--muted);
+  }
+  .nav-links a { transition: color .2s; }
+  .nav-links a:hover { color: var(--ink); }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero {
+    padding: 96px 0 120px;
+    position: relative;
+  }
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 64px;
+    align-items: stretch;
+  }
+  @media (max-width: 900px) {
+    .hero-content { grid-template-columns: 1fr; }
+    .hero-card { display: none; }
+  }
+  .hero-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 40px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    margin-top: 28px;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .hero-card.show { animation: fadeUp .7s ease forwards .6s; }
+  .hero-card-avatar {
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-elevated);
+    border: 3px solid var(--line);
+  }
+  .hero-card-avatar-placeholder {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: var(--bg-elevated);
+    border: 3px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--sans); font-size: 28px; font-style: normal;
+    color: var(--muted);
+  }
+  .hero-card-name {
+    font-size: 18px; font-weight: 600; color: var(--ink);
+  }
+  .hero-card-divider {
+    width: 32px; height: 1px; background: var(--line-strong);
+  }
+  .hero-card-intro {
+    font-size: 13px; color: var(--muted);
+    line-height: 1.7;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp .8s ease forwards;
+  }
+  .hero-eyebrow .dash {
+    width: 24px; height: 1px; background: var(--line-strong);
+    display: inline-block;
+  }
+
+  h1.hero-title {
+    margin-top: 28px;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: clamp(36px, 5.4vw, 64px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: balance;
+    max-width: 16ch;
+  }
+  h1.hero-title .serif {
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  /* Typewriter container */
+  .typewriter { display: inline; }
+  .caret {
+    display: inline-block;
+    width: 3px; height: 0.95em;
+    background: var(--ink);
+    vertical-align: -0.12em;
+    margin-left: 2px;
+    animation: blink 1s steps(2) infinite;
+  }
+  .caret.gone { display: none; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .hero-sub {
+    margin-top: 32px;
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .hero-sub.show { animation: fadeUp .7s ease forwards .15s; }
+  .hero-sub strong { font-weight: 600; color: var(--ink); }
+
+  .hero-tag {
+    margin-top: 28px;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 7px 14px 7px 12px;
+    background: var(--accent-soft);
+    border: 1px solid oklch(0.85 0.06 155);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent-ink);
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .hero-tag.show { animation: fadeUp .7s ease forwards .35s; }
+  .pulse-dot {
+    position: relative;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .pulse-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulseRing 2s ease-out infinite;
+  }
+  @keyframes pulseRing {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(3); opacity: 0; }
+  }
+
+  .hero-meta {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .hero-meta.show { animation: fadeUp .7s ease forwards .55s; }
+  .hero-meta-item .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .hero-meta-item .value {
+    font-size: 15px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .hero-meta-item a.value {
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s;
+  }
+  .hero-meta-item a.value:hover { border-bottom-color: var(--ink); }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- section heading centered ---------- */
+  .section-head.section-head-center {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    text-align: center;
+    justify-items: center;
+  }
+  .section-head.section-head-center .section-title {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .section-head.section-head-center .section-lede {
+    margin: 12px auto 0;
+  }
+
+  /* ---------- section heading ---------- */
+  .section {
+    padding: 88px 0;
+    border-top: 1px solid var(--line);
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 64px;
+    margin-bottom: 72px;
+  }
+  @media (max-width: 760px) {
+    .section-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 48px; }
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-family: var(--sans);
+    font-size: clamp(28px, 3.4vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    color: var(--ink);
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  .section-title .em {
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .section-lede {
+    margin-top: 16px;
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 50ch;
+  }
+
+  /* ---------- projects ---------- */
+  .projects {
+    display: flex; flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .project {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 64px;
+    padding: 48px 0;
+    align-items: start;
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .project.in { opacity: 1; transform: translateY(0); }
+  @media (max-width: 760px) {
+    .project { grid-template-columns: 1fr; gap: 28px; padding: 40px 0; }
+  }
+
+  .project-meta {
+    display: flex; flex-direction: column;
+    gap: 14px;
+  }
+  .project-index {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--muted-soft);
+  }
+  .project-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .project-tag {
+    display: inline-block;
+    font-size: 14px;
+    font-family: var(--sans);
+    padding: 5px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    color: var(--ink-soft);
+    background: var(--bg);
+    transition: transform .25s ease, background .25s ease, border-color .25s;
+  }
+  .project-tag.level-1 { background: oklch(0.95 0.03 155); border-color: oklch(0.86 0.05 155); color: var(--accent-ink); font-size: 14px; }
+  .project-tag.level-2 { background: oklch(0.95 0.025 80); border-color: oklch(0.86 0.06 80); color: oklch(0.4 0.08 80); font-size: 14px; }
+  .project:hover .project-tag { transform: scale(1.04); }
+
+  .project-link-out {
+    margin-top: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .project-body {
+    display: flex; flex-direction: column;
+    gap: 20px;
+    transition: gap .4s ease;
+  }
+  .project:hover .project-body { gap: 26px; }
+
+  .project-title {
+    font-size: clamp(22px, 2.2vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    line-height: 1.3;
+    text-wrap: balance;
+    margin-bottom: 10px;
+  }
+  .project-title .serif {
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 400;
+  }
+  .project-subtitle {
+    font-size: 18px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 0px;
+  }
+
+  .project-block {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 24px;
+    padding-top: 4px;
+  }
+  @media (max-width: 540px) {
+    .project-block { grid-template-columns: 1fr; gap: 8px; }
+  }
+  .project-block-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    padding-top: 4px;
+  }
+  .project-block-content {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+  .project-block-content strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .project-block-content .pill {
+    display: inline-block;
+    padding: 1px 6px;
+    background: var(--bg-elevated);
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .project-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px;
+    color: var(--ink);
+    position: relative;
+    padding-bottom: 2px;
+    width: fit-content;
+  }
+  .project-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .5s cubic-bezier(.2,.7,.3,1);
+  }
+  .project-link:hover::after { transform: scaleX(1); }
+  .project-link .arrow { transition: transform .3s; }
+  .project-link:hover .arrow { transform: translate(3px, -3px); }
+
+  .project-show {
+    margin-top: 4px;
+    padding: 14px 16px;
+    background: var(--bg-elevated);
+    border-left: 2px solid var(--line-strong);
+    font-size: 13px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  /* ---------- about / closing ---------- */
+  .closing {
+    padding: 120px 0 96px;
+    border-top: 1px solid var(--line);
+  }
+  .closing-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 64px;
+  }
+  @media (max-width: 760px) {
+    .closing-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  .closing-title {
+    font-family: var(--sans);
+    font-size: clamp(28px, 3.4vw, 44px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--ink);
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .closing-title .serif {
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .closing-contact {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .closing-contact-item .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .closing-contact-item .value {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted-soft);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* ---------- mark / accent details ---------- */
+  .arrow-svg {
+    width: 12px; height: 12px;
+    flex-shrink: 0;
+  }
+
+  ::selection { background: var(--accent-soft); color: var(--ink); }
+
+  /* 全局去除斜体 */
+  .serif, .em, .nav-mark {
+    font-style: normal;
+    font-family: var(--sans);
+    font-weight: inherit;
+  }
+
+  /* ---------- timeline ---------- */
+  .timeline {
+    display: flex; flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 64px;
+    padding: 40px 0;
+    align-items: start;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 760px) {
+    .timeline-item { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; }
+  }
+  .timeline-meta {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .timeline-period {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+  }
+  .timeline-company {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .timeline-role {
+    font-size: clamp(22px, 2.2vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .timeline-desc {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+  .timeline-desc strong { font-weight: 400; color: var(--ink-soft); }
+
+  /* ---------- podcast card ---------- */
+  .podcast-card {
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin-top: 12px;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .podcast-card:hover {
+    border-color: var(--line-strong);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .podcast-card-cover {
+    width: 80px; height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .podcast-card-info { display: flex; flex-direction: column; gap: 6px; }
+  .podcast-card-title { font-size: 16px; font-weight: 600; color: var(--ink); }
+  .podcast-card-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .podcast-card-meta {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 4px;
+  }
+  .podcast-card-subs {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--accent-ink); font-weight: 500;
+  }
+  .podcast-card-platform {
+    font-family: var(--mono); font-size: 11px; color: var(--muted-soft);
+  }
+
+  /* ---------- before/after compare ---------- */
+  .compare-wrap {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: start;
+    margin-top: 16px;
+  }
+  @media (max-width: 640px) {
+    .compare-wrap { grid-template-columns: 1fr; }
+    .compare-arrow { display: none; }
+  }
+  .compare-panel {
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .compare-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .compare-before .compare-label { background: var(--bg-elevated); color: var(--muted-soft); }
+  .compare-after  .compare-label { background: oklch(0.95 0.03 155); color: var(--accent-ink); }
+  .compare-body { padding: 14px; font-size: 13px; line-height: 1.7; }
+  .compare-before .compare-body { background: var(--bg-elevated); color: var(--muted); font-family: var(--mono); }
+  .compare-after  .compare-body { background: var(--bg); color: var(--ink-soft); }
+  .compare-after  .compare-body strong { color: var(--ink); font-weight: 600; }
+  .compare-after  .compare-body .ts {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent-ink); margin-right: 6px;
+  }
+  .compare-arrow {
+    display: flex; align-items: center; padding-top: 38px;
+    color: var(--line-strong); font-size: 20px;
+  }
+
+  /* === warm section + white card overrides === */
+  .section-warm {
+    background: var(--bg-warm);
+    border-top: none;
+  }
+  .section-warm .projects {
+    border-top: none;
+    gap: 16px;
+  }
+  .section-warm .timeline {
+    border-top: none;
+    gap: 16px;
+  }
+  .section-warm .project {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 36px;
+    border-bottom: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  .section-warm .timeline-item {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 32px 36px;
+    border-bottom: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  @media (max-width: 760px) {
+    .section-warm .project { padding: 24px; }
+    .section-warm .timeline-item { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <div class="nav-mark">Cuiping Chen</div>
+    <div class="nav-links">
+      <a href="#work">作品</a>
+      <a href="#experience">经历</a>
+      <a href="#about">关于</a>
+      <a href="#contact">联系</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">
+      <span class="dash"></span>
+      <span>Personal Profile · 2026</span>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-left">
+        <h1 class="hero-title">
+          <span class="typewriter" id="typewriter"></span><span class="caret" id="caret"></span>
+        </h1>
+
+        <p class="hero-sub" id="heroSub">
+          <strong>字节跳动风险治理产品运营出身，7 年互联网运营经验。</strong>
+          主导过 TikTok 内容安全自动化审核落地与全球数据指标体系搭建；Gap 期用 AI 重建个人工作系统，现寻找 AI Agent 产品运营方向机会。
+        </p>
+
+        <div class="hero-tag" id="heroTag">
+          <span class="pulse-dot"></span>
+          <span>开放求职中 · AI Agent 产品运营</span>
+        </div>
+      </div>
+
+      <div class="hero-card" id="heroCard">
+        <img class="hero-card-avatar" src="avatar.jpg" alt="陈翠萍" />
+        <div class="hero-card-name">陈翠萍</div>
+        <div class="hero-card-divider"></div>
+        <div class="hero-card-intro">
+          内容创作者 · 产品运营<br/>
+          播客「Double C 聊天室」主播
+        </div>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ============ WORK ============ -->
+<section class="section section-warm" id="work">
+  <div class="wrap">
+    <div class="section-head section-head-center">
+      <div class="section-num">01 — Projects</div>
+      <h2 class="section-title">经历项目</h2>
+    </div>
+
+    <div class="projects">
+
+      <!-- Project 1 -->
+      <article class="project" data-project>
+        <div class="project-meta">
+          <div class="project-index">P · 01</div>
+          <div class="project-tags">
+            <span class="project-tag level-1">深度对话</span>
+            <span class="project-tag level-2">方法论沉淀</span>
+          </div>
+        </div>
+
+        <div class="project-body">
+          <h3 class="project-title">播客「Double C 聊天室」</h3>
+          <div class="project-subtitle">— 19 期对话与内容方法论</div>
+
+          <div class="project-block">
+            <div class="project-block-label">Problem</div>
+            <div class="project-block-content">
+              双周更的播客，最难的不是内容，是如何在每期对话里真正进入对方的语境——不抢节奏，不自说自话，让对方主动说出他们真正想说的东西。
+            </div>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-label">Action</div>
+            <div class="project-block-content">
+              与 Cici 共同主持，面向 25–35 岁一线城市年轻人；建立从<strong>选题确认 → 录制复盘 → 洞察提炼 → 方法论归档</strong>的完整循环。每期结束后系统性总结延伸选题、对话节奏规律，沉淀到可复用的内容方法论库中。
+            </div>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-label">Result</div>
+            <div class="project-block-content">
+              <div style="margin-bottom: 10px; font-size: 15px; color: var(--ink-soft);">持续更新 19 期，从每期对话中提炼内容结构规律，形成可复用的方法论文档，指导后续选题与录制节奏。</div>
+              <a class="podcast-card" href="https://www.xiaoyuzhoufm.com/podcast/686a159255191cce1a66418d" target="_blank" rel="noopener">
+                <img class="podcast-card-cover" src="https://image.xyzcdn.net/FnbXXNR4rdvfduARqWixQwC1En8J.jpg" alt="Double C 聊天室封面" />
+                <div class="podcast-card-info">
+                  <div class="podcast-card-title">Double C 聊天室</div>
+                  <div class="podcast-card-desc">我们是 Cici 和 Chris，两位 30+ 的互联网大厂「毕业生」</div>
+                  <div class="podcast-card-meta">
+                    <span class="podcast-card-subs">307 已订阅</span>
+                    <span class="podcast-card-platform">小宇宙</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 2 -->
+      <article class="project" data-project>
+        <div class="project-meta">
+          <div class="project-index">P · 02</div>
+          <div class="project-tags">
+            <span class="project-tag level-1">Workflow Skill</span>
+            <span class="project-tag level-2">Agent</span>
+          </div>
+        </div>
+
+        <div class="project-body">
+          <h3 class="project-title">播客内容 AI 系统</h3>
+          <div class="project-subtitle">— Workflow Skill + 追踪 & 复盘 Agent</div>
+
+          <div class="project-block">
+            <div class="project-block-label">Problem</div>
+            <div class="project-block-content">
+              播客后期写 Shownote、做剪辑标注、跟进复盘——费时且输出质量容易因个人状态波动。
+            </div>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-label">Action</div>
+            <div class="project-block-content">
+              <strong>Workflow Skill 层</strong> —— 把剪辑标注、Shownote 生成、标题撰写、发布复盘拆解为四个结构化 Skill，上传逐字稿后按顺序调用，每步输出直接喂入下一步。<br/><br/>
+              <strong>复盘 Agent</strong> —— 监听 RSS，新集发布后自动生成档案草稿、设定提醒，全程无需手动触发。
+            </div>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-label">Result</div>
+            <div class="project-block-content">
+              制作时间缩短 <strong>80% 以上</strong>，输出质量稳定，复盘不再遗漏。
+            </div>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding: 10px 14px; background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--line);">
+              <span style="font-family: var(--mono); font-size: 11px; color: var(--muted-soft);">INPUT</span>
+              <span style="font-size: 13px; color: var(--ink-soft);">33 分钟对话 · 5000+ 字逐字稿</span>
+              <span style="font-family: var(--mono); font-size: 13px; color: var(--muted-soft); margin: 0 4px;">→</span>
+              <span style="font-size: 13px; color: var(--ink-soft);">结构化 Shownote</span>
+              <span style="font-family: var(--mono); font-size: 11px; color: var(--muted-soft);">OUTPUT</span>
+              <span style="margin-left: auto; font-family: var(--mono); font-size: 11px; padding: 3px 8px; background: oklch(0.95 0.03 155); color: var(--accent-ink); border-radius: 4px;">~3 分钟完成</span>
+            </div>
+
+            <div class="compare-wrap">
+              <div class="compare-panel compare-before">
+                <div class="compare-label">逐字稿原文 · 上传即处理</div>
+                <div class="compare-body">
+                  <span style="opacity:.5">Chris 00:05</span><br/>
+                  这期其实是从想要聊一下我们的来时路……没有想到已经突破了订阅数 200 人，所以今天想趁着这个机会彼此的开诚布公的讲一下……其实也不单只是说想要庆祝这个数字而已，更想要就知道说……<br/><br/>
+                  <span style="opacity:.5">Cici 01:04</span><br/>
+                  你先说。<br/><br/>
+                  <span style="opacity:.5">Chris 01:04</span><br/>
+                  好，其实我们在很早之前的节目里面我们有坦诚过，特别是我在做这件事情，其实刚开始会看很多外在的目标，比如说……
+                </div>
+              </div>
+              <div class="compare-arrow">→</div>
+              <div class="compare-panel compare-after">
+                <div class="compare-label">AI 生成 Shownote</div>
+                <div class="compare-body">
+                  <span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ 简介撰写</span><br/>
+                  大家好～这期是节目做满半年、订阅突破 200 的阶段性回顾，聊聊：这段时间，我们自己有哪些真实的变化。<br/><br/>
+                  <span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ 时间轴标注 · 金句提炼</span><br/>
+                  <span class="ts">00:13</span>以为只是来庆祝 200 订阅——结果聊出了一整年的复盘<br/>
+                  <span class="ts">01:33</span><strong>感受标签法</strong>：数据之外，开始记录「当下在不在状态」<br/>
+                  <span class="ts">05:32</span>从「做了就好」到「做这件事的时候我是高兴的」<br/>
+                  <span class="ts">13:32</span>把历期内容喂给 AI：收听量最高的几期，都是还卡在问题里的时候
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 3 -->
+      <article class="project" data-project>
+        <div class="project-meta">
+          <div class="project-index">P · 03</div>
+          <div class="project-tags">
+            <span class="project-tag level-1">需求理解</span>
+            <span class="project-tag">协作场景设计</span>
+          </div>
+        </div>
+
+        <div class="project-body">
+          <h3 class="project-title">飞书 AI 机器人</h3>
+          <div class="project-subtitle">— 为真实协作场景设计的 Agent</div>
+
+          <div class="project-block">
+            <div class="project-block-label">Problem</div>
+            <div class="project-block-content">
+              飞书是主要协作平台，但缺少真正懂工作流的 AI 助手——通用 AI 不理解飞书结构，自带功能又不够灵活。
+            </div>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-label">Action</div>
+            <div class="project-block-content">
+              用 <span class="pill">Node.js</span> + <span class="pill">DeepSeek API</span> + <span class="pill">lark-cli</span> 搭建 Bridge Server，接入文档读写、多维表格、日程查询等 <strong>8 个飞书工具</strong>，通过 System Prompt 赋予 Agent 主动拆解任务的能力。
+            </div>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-label">Result</div>
+            <div class="project-block-content">
+              直接在飞书对话里完成内容管理，<strong>无需切换任何界面</strong>。
+            </div>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-label">演示</div>
+            <div class="project-block-content">
+              <video
+                src="feishu-demo.mp4"
+                autoplay muted loop playsinline controls
+                id="feishuDemo"
+                style="width: 100%; max-width: 320px; border-radius: 8px; border: 1px solid var(--line); display: block; margin-top: 4px;"
+              ></video>
+              <script>
+                document.getElementById('feishuDemo').playbackRate = 1.2;
+                document.getElementById('feishuDemo').addEventListener('play', function(){ this.playbackRate = 1.2; });
+              </script>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 4 -->
+      <article class="project" data-project>
+        <div class="project-meta">
+          <div class="project-index">P · 04</div>
+          <div class="project-tags">
+            <span class="project-tag">Vibe Coding</span>
+            <span class="project-tag">Shipped</span>
+          </div>
+        </div>
+
+        <div class="project-body">
+          <h3 class="project-title">Soul Mirror AI 人生教练</h3>
+          <div class="project-subtitle">— 从想法到上线的完整执行</div>
+
+          <div class="project-block">
+            <div class="project-block-label">核心验证</div>
+            <div class="project-block-content">
+              用 <span class="pill">Google AI Studio</span> + <span class="pill">Gemini</span> 走完产品设计、开发、部署全流程（<span class="pill">GitHub</span> + <span class="pill">Vercel</span>）。PRD、组件逻辑、样式全部 AI 协作产出，自己负责定义要做什么、check 结果是否对。验证了「想法 → 上线产品」这件事自己能独立跑完。
+            </div>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-label">Result</div>
+            <div class="project-block-content">
+              <a class="project-link" href="https://soulmirror-lite.vercel.app/" target="_blank" rel="noopener">
+                soulmirror-lite.vercel.app
+                <svg class="arrow-svg arrow" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+              <div style="margin-top:6px; color: var(--muted); font-size: 13px;">可直接访问的线上产品</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section class="section section-warm" id="experience">
+  <div class="wrap">
+    <div class="section-head section-head-center">
+      <div class="section-num">02 — Experience</div>
+      <h2 class="section-title">工作经历</h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <div class="timeline-period">2021 – 2024</div>
+          <div class="timeline-company">字节跳动（上海）</div>
+          <div class="project-tags" style="margin-top: 10px;">
+            <span class="project-tag level-1">数据指标体系</span>
+            <span class="project-tag">自动化策略</span>
+          </div>
+        </div>
+        <div class="timeline-body">
+          <div class="timeline-role">风险治理产品运营</div>
+          <div class="timeline-desc">
+            负责 TikTok 内容安全审核策略，主导自动化审核落地——分析 5w 条违规数据识别机会，推动模型从训练到上线，最终替代 <strong>50% 人工审核任务</strong>，审核人力减少 74%，节省年度成本百万美元。同步搭建全球审核基地数据指标体系与下钻数据看板，上线后基地不达标次数减少 <strong>75%</strong>。
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <div class="timeline-period">2024.09 – 12</div>
+          <div class="timeline-company">有乐今天科技</div>
+          <div class="project-tags" style="margin-top: 10px;">
+            <span class="project-tag level-1">用户增长</span>
+            <span class="project-tag">平台策略运营</span>
+          </div>
+        </div>
+        <div class="timeline-body">
+          <div class="timeline-role">TikTok Shop 达人平台策略运营</div>
+          <div class="timeline-desc">
+            梳理达人端注册到履约全流程漏斗，通过选品策略优化与自动审核替代人工，注册-领样率月均提高 10%；策划月度打榜赛，优质达人次月留存率从 12% 翻倍至 <strong>25%</strong>，平台上线三个月累计 GMV 超 <strong>500 万美元</strong>。
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <div class="timeline-period">2020 – 2021</div>
+          <div class="timeline-company">阿卡索资讯</div>
+          <div class="project-tags" style="margin-top: 10px;">
+            <span class="project-tag level-1">裂变增长</span>
+            <span class="project-tag">用户转化</span>
+          </div>
+        </div>
+        <div class="timeline-body">
+          <div class="timeline-role">裂变增长产品运营</div>
+          <div class="timeline-desc">
+            策划「邀请好友共读独家绘本」转介绍活动，推动 10w+ 核心用户首次发起分享，用户分享率提升 <strong>100%</strong>，新用户购课金额累计千万元；优化新用户试课路径，试课率提高 30%。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about" style="padding-bottom: 32px;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">03 — About Me</div>
+      <div>
+        <h2 class="section-title">
+          通过 AI 重建生活方式的<br/>
+          <span class="em">内容创作者，产品运营人</span>
+        </h2>
+        <p class="section-lede" style="font-size: 16px; line-height: 1.75; color: var(--ink-soft); max-width: 62ch;">
+          我是一个用 AI 反复折腾自己工作方式的人——播客工作流、个人知识系统、自建 Agent——每一件都是因为遇到了真实的问题，然后用 AI 去解决它，再看结果是否真的对。
+          <br/><br/>
+          在这个过程里，我最深的体会不是「掌握了哪些工具」。而是发现：<strong style="color:var(--ink);">AI 最大的价值不是替你完成任务，而是让你的思考变得更可见</strong>——你才有机会真正去质疑和迭代它。工具一直在换，但这件事不会变。
+          <br/><br/>
+          7 年互联网运营，字节跳动出发。这段经历给我的不只是方法论，是在信息量极大、判断标准模糊的情况下，依然要做出清晰决策的习惯。
+          <br/><br/>
+          所以这个 Profile 不是简历的简化版——它是我想和你开始一段对话的方式。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section" id="contact" style="padding-bottom: 64px;">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom: 0;">
+      <div class="section-num">04 — Contact</div>
+      <div>
+        <h2 class="section-title">
+          想聊聊？<span class="serif em">随时</span>
+        </h2>
+
+        <div class="closing-contact">
+          <div class="closing-contact-item">
+            <div class="label">WeChat</div>
+            <div class="value">380140193</div>
+          </div>
+          <div class="closing-contact-item">
+            <div class="label">Email</div>
+            <div class="value"><a href="mailto:charlotte.chan@163.com">charlotte.chan@163.com</a></div>
+          </div>
+          <div class="closing-contact-item">
+            <div class="label">LinkedIn</div>
+            <div class="value">
+              <a href="https://www.linkedin.com/in/cuiping-chen-675882117" target="_blank" rel="noopener">
+                cuiping-chen-675882117
+              </a>
+            </div>
+          </div>
+          <div class="closing-contact-item">
+            <div class="label">Status</div>
+            <div class="value" style="display: inline-flex; align-items: center; gap: 8px;">
+              <span class="pulse-dot"></span>
+              <span style="color: var(--accent-ink);">Open to AI Agent PM/Ops</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+    <div>© 2026 Cuiping Chen · Built with care, edited by hand.</div>
+    <div>Last updated · May 2026</div>
+  </div>
+</footer>
+
+<script>
+  // --- typewriter ---
+  const fullText = '用 AI 重构创作与运营工作方式';
+  const typewriter = document.getElementById('typewriter');
+  const caret = document.getElementById('caret');
+  const heroSub = document.getElementById('heroSub');
+  const heroTag = document.getElementById('heroTag');
+  const heroCard = document.getElementById('heroCard');
+
+  let i = 0;
+  const startDelay = 250;
+  const charDelay = 90;
+
+  function typeChar() {
+    if (i < fullText.length) {
+      typewriter.textContent = fullText.slice(0, i + 1);
+      i++;
+      setTimeout(typeChar, charDelay + (Math.random() * 40 - 20));
+    } else {
+      // hold caret 1s then hide
+      setTimeout(() => {
+        caret.classList.add('gone');
+      }, 1000);
+      // trigger subsequent reveals
+      heroSub.classList.add('show');
+      heroTag.classList.add('show');
+      heroCard.classList.add('show');
+    }
+  }
+  setTimeout(typeChar, startDelay);
+
+  // --- scroll-triggered project entrances ---
+  const projects = document.querySelectorAll('[data-project]');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, idx) => {
+      if (e.isIntersecting) {
+        const target = e.target;
+        const delay = parseInt(target.dataset.delay || '0', 10);
+        setTimeout(() => target.classList.add('in'), delay);
+        io.unobserve(target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  projects.forEach((p, i) => {
+    p.dataset.delay = (i * 100).toString();
+    io.observe(p);
+  });
+
+  // --- nav border on scroll ---
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    if (window.scrollY > 20) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+</body>
+</html>
