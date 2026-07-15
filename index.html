@@ -72,8 +72,32 @@
   }
   .nav-links a { transition: color .2s; }
   .nav-links a:hover { color: var(--ink); }
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    padding: 4px 9px;
+    background: rgba(255,255,255,0.35);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .lang-toggle button {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+  }
+  .lang-toggle button.active { color: var(--ink); font-weight: 600; }
+  .lang-toggle .sep { color: var(--muted-soft); }
   @media (max-width: 640px) {
-    .nav-links { display: none; }
+    .nav-links { display: flex; gap: 0; }
+    .nav-links a { display: none; }
   }
 
   /* ---------- hero ---------- */
@@ -204,6 +228,20 @@
     transform: translateY(8px);
   }
   .hero-tag.show { animation: fadeUp .7s ease forwards .35s; }
+
+  body[data-lang="en"] h1.hero-title {
+    margin-top: 22px;
+    font-size: clamp(34px, 4.5vw, 52px);
+    line-height: 1.08;
+    max-width: 20ch;
+  }
+  body[data-lang="en"] .hero-sub {
+    margin-top: 24px;
+    font-size: clamp(15px, 1.25vw, 17px);
+    line-height: 1.6;
+    max-width: 66ch;
+  }
+  body[data-lang="en"] .hero-tag { margin-top: 22px; }
   .pulse-dot {
     position: relative;
     width: 8px; height: 8px;
@@ -717,6 +755,11 @@
       <a href="#experience">经历</a>
       <a href="#about">关于</a>
       <a href="#contact">联系</a>
+      <span class="lang-toggle" aria-label="Language switcher">
+        <button type="button" id="langZh" class="active">CHN</button>
+        <span class="sep">/</span>
+        <button type="button" id="langEn">ENG</button>
+      </span>
     </div>
   </div>
 </nav>
@@ -802,7 +845,7 @@
             <div class="project-block-label">Result</div>
             <div class="project-block-content">
               <div style="margin-bottom: 10px; font-size: 15px; color: var(--ink-soft);">持续更新 19 期，从每期对话中提炼内容结构规律，形成可复用的方法论文档，指导后续选题与录制节奏。</div>
-              <a class="podcast-card" href="https://www.xiaoyuzhoufm.com/podcast/686a159255191cce1a66418d" target="_blank" rel="noopener">
+              <a class="podcast-card" data-project-persistent href="https://www.xiaoyuzhoufm.com/podcast/686a159255191cce1a66418d" target="_blank" rel="noopener">
                 <img class="podcast-card-cover" src="https://image.xyzcdn.net/FnbXXNR4rdvfduARqWixQwC1En8J.jpg" alt="Double C 聊天室封面" />
                 <div class="podcast-card-info">
                   <div class="podcast-card-title">Double C 聊天室</div>
@@ -1124,40 +1167,309 @@
 </footer>
 
 <script>
-  // --- typewriter ---
-  const fullText = '用 AI 重构创作与运营工作方式';
+  const copy = {
+    zh: {
+      pageTitle: '陈翠萍 · AI Agent 产品运营',
+      typewriter: '用 AI 重构创作与运营工作方式',
+      nav: ['作品', '经历', '关于', '联系'],
+      heroSub: '<strong>字节跳动风险治理产品运营出身，7 年互联网运营经验。</strong> 主导过 TikTok 内容安全自动化审核落地与全球数据指标体系搭建；Gap 期用 AI 重建个人工作系统，现寻找 AI Agent 产品 / 增长运营方向机会。',
+      heroTag: '开放求职中 · AI Agent 产品 / 增长运营',
+      cardName: '陈翠萍',
+      cardIntro: '内容创作者 · 产品运营<br/>播客「Double C 聊天室」主播',
+      projectsTitle: '经历项目',
+      p1: {
+        tags: ['深度对话', '方法论沉淀'],
+        title: '播客「Double C 聊天室」',
+        subtitle: '— 19 期对话与内容方法论',
+        blocks: [
+          '双周更的播客，最难的不是内容，是如何在每期对话里真正进入对方的语境——不抢节奏，不自说自话，让对方主动说出他们真正想说的东西。',
+          '与 Cici 共同主持，面向 25–35 岁一线城市年轻人；建立从<strong>选题确认 → 录制复盘 → 洞察提炼 → 方法论归档</strong>的完整循环。每期结束后系统性总结延伸选题、对话节奏规律，沉淀到可复用的内容方法论库中。',
+          '持续更新 19 期，从每期对话中提炼内容结构规律，形成可复用的方法论文档，指导后续选题与录制节奏。'
+        ],
+        podcastDesc: '我们是 Cici 和 Chris，两位 30+ 的互联网大厂「毕业生」',
+        podcastSubs: '307 已订阅',
+        podcastPlatform: '小宇宙'
+      },
+      p2: {
+        tags: ['Workflow Skill', 'Agent'],
+        title: '播客内容 AI 系统',
+        subtitle: '— Workflow Skill + 追踪 & 复盘 Agent',
+        blocks: [
+          '播客后期写 Shownote、做剪辑标注、跟进复盘——费时且输出质量容易因个人状态波动。',
+          '<strong>Workflow Skill 层</strong> —— 把剪辑标注、Shownote 生成、标题撰写、发布复盘拆解为四个结构化 Skill，上传逐字稿后按顺序调用，每步输出直接喂入下一步。<br/><br/><strong>复盘 Agent</strong> —— 监听 RSS，新集发布后自动生成档案草稿、设定提醒，全程无需手动触发。',
+          '制作时间缩短 <strong>80% 以上</strong>，输出质量稳定，复盘不再遗漏。'
+        ],
+        input: '33 分钟对话 · 5000+ 字逐字稿',
+        output: '结构化 Shownote',
+        time: '~3 分钟完成',
+        beforeLabel: '逐字稿原文 · 上传即处理',
+        afterLabel: 'AI 生成 Shownote',
+        beforeBody: '<span style="opacity:.5">Chris 00:05</span><br/>这期其实是从想要聊一下我们的来时路……没有想到已经突破了订阅数 200 人，所以今天想趁着这个机会彼此的开诚布公的讲一下……其实也不单只是说想要庆祝这个数字而已，更想要就知道说……<br/><br/><span style="opacity:.5">Cici 01:04</span><br/>你先说。<br/><br/><span style="opacity:.5">Chris 01:04</span><br/>好，其实我们在很早之前的节目里面我们有坦诚过，特别是我在做这件事情，其实刚开始会看很多外在的目标，比如说……',
+        afterBody: '<span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ 简介撰写</span><br/>大家好～这期是节目做满半年、订阅突破 200 的阶段性回顾，聊聊：这段时间，我们自己有哪些真实的变化。<br/><br/><span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ 时间轴标注 · 金句提炼</span><br/><span class="ts">00:13</span>以为只是来庆祝 200 订阅——结果聊出了一整年的复盘<br/><span class="ts">01:33</span><strong>感受标签法</strong>：数据之外，开始记录「当下在不在状态」<br/><span class="ts">05:32</span>从「做了就好」到「做这件事的时候我是高兴的」<br/><span class="ts">13:32</span>把历期内容喂给 AI：收听量最高的几期，都是还卡在问题里的时候'
+      },
+      p3: {
+        tags: ['需求理解', '协作场景设计'],
+        title: '飞书 AI 机器人',
+        subtitle: '— 为真实协作场景设计的 Agent',
+        blocks: [
+          '飞书是主要协作平台，但缺少真正懂工作流的 AI 助手——通用 AI 不理解飞书结构，自带功能又不够灵活。',
+          '用 <span class="pill">Node.js</span> + <span class="pill">DeepSeek API</span> + <span class="pill">lark-cli</span> 搭建 Bridge Server，接入文档读写、多维表格、日程查询等 <strong>8 个飞书工具</strong>，通过 System Prompt 赋予 Agent 主动拆解任务的能力。',
+          '直接在飞书对话里完成内容管理，<strong>无需切换任何界面</strong>。'
+        ],
+        demo: '演示'
+      },
+      p4: {
+        title: 'Soul Mirror AI 人生教练',
+        subtitle: '— 从想法到上线的完整执行',
+        validation: '核心验证',
+        body: '用 <span class="pill">Google AI Studio</span> + <span class="pill">Gemini</span> 走完产品设计、开发、部署全流程（<span class="pill">GitHub</span> + <span class="pill">Vercel</span>）。PRD、组件逻辑、样式全部 AI 协作产出，自己负责定义要做什么、check 结果是否对。验证了「想法 → 上线产品」这件事自己能独立跑完。',
+        live: '可直接访问的线上产品'
+      },
+      experienceTitle: '工作经历',
+      exp: [
+        {
+          company: '字节跳动（上海）', role: '风险治理产品运营', tags: ['数据指标体系', '自动化策略'],
+          desc: '负责 TikTok 内容安全审核策略，主导自动化审核落地——分析 5w 条违规数据识别机会，推动模型从训练到上线，最终替代 <strong>50% 人工审核任务</strong>，审核人力减少 74%，节省年度成本百万美元。同步搭建全球审核基地数据指标体系与下钻数据看板，上线后基地不达标次数减少 <strong>75%</strong>。'
+        },
+        {
+          company: '有乐今天科技', role: 'TikTok Shop 达人平台策略运营', tags: ['用户增长', '平台策略运营'],
+          desc: '梳理达人端注册到履约全流程漏斗，通过选品策略优化与自动审核替代人工，注册-领样率月均提高 10%；策划月度打榜赛，优质达人次月留存率从 12% 翻倍至 <strong>25%</strong>，平台上线三个月累计 GMV 超 <strong>500 万美元</strong>。'
+        },
+        {
+          company: '阿卡索资讯', role: '裂变增长产品运营', tags: ['裂变增长', '用户转化'],
+          desc: '策划「邀请好友共读独家绘本」转介绍活动，推动 10w+ 核心用户首次发起分享，用户分享率提升 <strong>100%</strong>，新用户购课金额累计千万元；优化新用户试课路径，试课率提高 30%。'
+        }
+      ],
+      aboutTitle: '通过 AI 重建生活方式的<br/><span class="em">内容创作者，产品运营人</span>',
+      aboutBody: '我想做 AI Agent 产品 / 增长运营，因为我擅长把复杂工具变成用户真正能跑通的使用路径。<br/><br/>过去我在字节负责 TikTok 内容安全自动化审核和全球数据指标体系，推动模型替代 50% 人工审核任务、审核人力减少 74%；在 TikTok 达人平台拆解注册到履约出单链路，通过样品策略、自动审核和达人分层提升核心转化与留存。<br/><br/>Gap 期我继续把这套能力迁移到 AI 场景：搭建播客内容 AI workflow、飞书 AI 机器人和个人知识管理系统，把高频任务拆成 prompt、skill、工具调用和复盘机制。<br/><br/>我希望在 AI Agent 产品 / 增长运营中提供的价值，是把用户真实任务、AI 能力和产品路径连接起来：识别用户在哪里卡住，设计让他们更容易成功的使用路径，并把有效方法沉淀为产品机制、增长实验、内容案例或可复用 workflow。',
+      contactTitle: '想聊聊？<span class="serif em">随时</span>',
+      contactEmail: 'charlotte.chan@163.com',
+      contactStatus: 'Open to AI Agent PM/Ops',
+      footerUpdated: 'Last updated · May 2026'
+    },
+    en: {
+      pageTitle: 'Cuiping Chen · AI Agent Product / Growth Ops',
+      typewriter: 'Building AI Workflows for Content and Operations',
+      nav: ['Projects', 'Experience', 'About', 'Contact'],
+      heroSub: 'Product operator and content creator with 7 years of experience in user growth, data-driven operations, and workflow automation. Now exploring AI Agent Product / Growth Ops roles, with hands-on projects in podcast AI workflows, Lark agents, and personal knowledge systems.',
+      heroTag: 'Open to AI Agent Product / Growth Ops',
+      cardName: 'Cuiping Chen',
+      cardIntro: 'Product Operator · Content Creator<br/>Co-host, Double C Chatroom podcast',
+      projectsTitle: 'Projects',
+      p1: {
+        tags: ['Podcast', 'Content Systems'],
+        title: 'Double C Chatroom',
+        subtitle: '— 19 episodes, one growing content system',
+        blocks: [
+          'The challenge was not just publishing episodes. It was building a repeatable way to turn open-ended conversations into thoughtful, useful content without losing the honesty and texture of the original dialogue.',
+          'Co-hosted the show with Cici for young urban listeners navigating work, relationships, money, and self-understanding. Built a repeatable loop for topic alignment, recording review, insight extraction, and content methodology archiving.',
+          'Published 19 episodes and turned recurring conversation patterns into reusable notes that guide future topics, recording rhythm, and content decisions.'
+        ],
+        podcastDesc: 'A podcast by Cici and Chris, two 30+ former internet company operators navigating life after Big Tech.',
+        podcastSubs: '307 subscribers',
+        podcastPlatform: 'Xiaoyuzhou'
+      },
+      p2: {
+        tags: ['AI Workflow', 'Agent'],
+        title: 'Podcast AI Workflow',
+        subtitle: '— From transcript to show notes, titles, and review',
+        blocks: [
+          'Podcast production involves many repeatable but judgment-heavy tasks: editing notes, show notes, titles, timelines, and post-release reviews. The work is time-consuming, and quality can fluctuate with energy and attention.',
+          'Designed a set of structured AI skills for editing notes, show notes, title options, and post-release reviews. Each step has clear inputs, outputs, and quality checks, so one episode can move through the workflow without starting from scratch every time.<br/><br/>Built a review agent that monitors the podcast RSS feed, creates episode archive drafts after release, and sets follow-up reminders automatically.',
+          'Reduced production time by <strong>80%+</strong>, improved output consistency, and made post-release review part of the default workflow.'
+        ],
+        input: '33-min conversation · 5,000+ word transcript',
+        output: 'structured show notes',
+        time: '~3 min',
+        beforeLabel: 'Raw transcript · uploaded directly',
+        afterLabel: 'AI-generated show notes',
+        beforeBody: '<span style="opacity:.5">Chris 00:05</span><br/>This episode started as a conversation about our path so far... We had just passed 200 subscribers, and wanted to use the moment to speak honestly about what changed for us — not just to celebrate the number, but to understand what it meant.<br/><br/><span style="opacity:.5">Cici 01:04</span><br/>You go first.<br/><br/><span style="opacity:.5">Chris 01:04</span><br/>Okay. We mentioned in earlier episodes that when I first started doing this, I paid a lot of attention to external goals...',
+        afterBody: '<span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ Intro draft</span><br/>In this episode, we look back on six months of making the podcast and passing 200 subscribers — and talk about what actually changed for us along the way.<br/><br/><span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ Timeline and highlights</span><br/><span class="ts">00:13</span>What began as a small milestone turned into a deeper review of the year<br/><span class="ts">01:33</span><strong>Feeling tags</strong>: tracking not just data, but whether we felt present while creating<br/><span class="ts">05:32</span>From “just finish it” to “do I feel alive while doing this?”<br/><span class="ts">13:32</span>Using AI to review past episodes: the most-listened episodes came from questions we were still living through'
+      },
+      p3: {
+        tags: ['Tool Calling', 'Workflow Design'],
+        title: 'Lark AI Agent',
+        subtitle: '— A personal agent for real Lark workflows',
+        blocks: [
+          'Lark is my main collaboration workspace, but generic AI tools do not understand its documents, tables, chats, or permissions. I wanted an assistant that could work inside the tools I already use.',
+          'Built a local bridge server with <span class="pill">Node.js</span>, <span class="pill">DeepSeek API</span>, and <span class="pill">lark-cli</span>. Connected Lark documents, Bitable, calendar, chat history, and other tools through function calling, with system prompts guiding task breakdown and tool use.',
+          'Turned Lark chat into an interface for reading, writing, searching, and managing work materials without switching contexts.'
+        ],
+        demo: 'Demo'
+      },
+      p4: {
+        title: 'Soul Mirror AI Life Coach',
+        subtitle: '— From concept to live product',
+        validation: 'Validation',
+        body: 'Used <span class="pill">Google AI Studio</span> and <span class="pill">Gemini</span> to take a lightweight AI coaching product from idea to live deployment. AI helped generate the PRD, component logic, and styling; I defined the product direction, reviewed the output, and shipped it through <span class="pill">GitHub</span> and <span class="pill">Vercel</span>.',
+        live: 'Live demo'
+      },
+      experienceTitle: 'Experience',
+      exp: [
+        {
+          company: 'ByteDance', role: 'Risk Governance Product Operations', tags: ['Data Metric System', 'Automation Strategy'],
+          desc: 'Led product operations for TikTok content safety. Analyzed 50K violation cases, identified automation opportunities, and drove an automated review model from training to launch. The project replaced <strong>50% of manual review tasks</strong>, reduced review manpower by 74%, and saved millions in annual operating costs. Also built global metrics and drill-down dashboards that reduced weekly underperformance incidents by <strong>75%</strong>.'
+        },
+        {
+          company: 'YOLO', role: 'TikTok Shop Creator Platform Strategy Operations', tags: ['User Growth', 'Platform Strategy'],
+          desc: 'Mapped the creator journey from registration to sample request, fulfillment, and GMV. Improved conversion through sample strategy, automated approval, creator segmentation, and ranking campaigns. High-performing creator retention doubled from 12% to <strong>25%</strong>, and the platform reached <strong>$5M+ GMV</strong> within three months.'
+        },
+        {
+          company: 'Acadsoc', role: 'Referral Growth Product Operations', tags: ['Referral Growth', 'User Conversion'],
+          desc: 'Designed referral campaigns and conversion flows for an online education product. One campaign drove 100K+ core users to share for the first time, doubled the user sharing rate, and generated tens of millions RMB in new course purchases. Also optimized the trial-class path and increased trial participation by 30%.'
+        }
+      ],
+      aboutTitle: 'Product operator and content creator<br/><span class="em">building practical AI workflows</span>',
+      aboutBody: 'I work at the intersection of user behavior, workflow design, and AI adoption.<br/><br/>My background is in product operations and growth: breaking down user journeys, finding friction, and turning messy workflows into systems that scale. At ByteDance, that meant automating content safety review. On a TikTok creator platform, it meant improving the path from creator registration to fulfillment and GMV.<br/><br/>During my career transition, I have been applying the same operating muscle to AI: building a podcast AI workflow, a Lark AI agent, and a personal knowledge system. These projects helped me understand what makes AI useful beyond a single chat: context, tool access, review loops, and repeatable workflows.<br/><br/>The value I want to bring to AI Agent Product / Growth Ops is simple: help users move from trying AI once to making it part of how they actually work.',
+      contactTitle: 'Want to talk?<span class="serif em"> Always open.</span>',
+      contactEmail: 'charlotte.kong93@gmail.com',
+      contactStatus: 'Open to AI Agent PM/Ops',
+      footerUpdated: 'Last updated · July 2026'
+    }
+  };
+
   const typewriter = document.getElementById('typewriter');
   const caret = document.getElementById('caret');
   const heroSub = document.getElementById('heroSub');
   const heroTag = document.getElementById('heroTag');
   const heroCard = document.getElementById('heroCard');
-
-  let i = 0;
+  const langZh = document.getElementById('langZh');
+  const langEn = document.getElementById('langEn');
+  let currentLang = 'zh';
+  let typeIndex = 0;
+  let typeTimer;
   const startDelay = 250;
   const charDelay = 90;
 
-  function typeChar() {
-    if (i < fullText.length) {
-      typewriter.textContent = fullText.slice(0, i + 1);
-      i++;
-      setTimeout(typeChar, charDelay + (Math.random() * 40 - 20));
-    } else {
-      // hold caret 1s then hide
-      setTimeout(() => {
-        caret.classList.add('gone');
-      }, 1000);
-      // trigger subsequent reveals
+  const setHTML = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el) el.innerHTML = value;
+  };
+  const setText = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el) el.textContent = value;
+  };
+  const setProject = (project, data) => {
+    if (!project) return;
+    project.querySelectorAll('.project-tag').forEach((tag, index) => {
+      if (data.tags && data.tags[index]) tag.textContent = data.tags[index];
+    });
+    if (data.title) project.querySelector('.project-title').textContent = data.title;
+    if (data.subtitle) project.querySelector('.project-subtitle').textContent = data.subtitle;
+    project.querySelectorAll('.project-block-content').forEach((block, index) => {
+      if (!data.blocks || !data.blocks[index]) return;
+      const persistentElements = Array.from(block.querySelectorAll('[data-project-persistent]'));
+      block.innerHTML = data.blocks[index];
+      persistentElements.forEach((element) => block.appendChild(element));
+    });
+  };
+
+  function renderLanguage(lang, options = {}) {
+    currentLang = lang;
+    const t = copy[lang];
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.body.dataset.lang = lang;
+    document.title = t.pageTitle;
+    document.querySelectorAll('.nav-links a').forEach((link, index) => {
+      if (t.nav[index]) link.textContent = t.nav[index];
+    });
+    setHTML('#heroSub', t.heroSub);
+    setText('#heroTag span:last-child', t.heroTag);
+    setText('.hero-card-name', t.cardName);
+    setHTML('.hero-card-intro', t.cardIntro);
+    setText('#work .section-title', t.projectsTitle);
+
+    const projects = document.querySelectorAll('[data-project]');
+    setProject(projects[0], t.p1);
+    setText('.podcast-card-desc', t.p1.podcastDesc);
+    setText('.podcast-card-subs', t.p1.podcastSubs);
+    setText('.podcast-card-platform', t.p1.podcastPlatform);
+
+    setProject(projects[1], t.p2);
+    const infoBarSpans = projects[1].querySelectorAll('[style*="font-size: 13px"], [style*="margin-left: auto"]');
+    if (infoBarSpans[0]) infoBarSpans[0].textContent = t.p2.input;
+    if (infoBarSpans[1]) infoBarSpans[1].textContent = t.p2.output;
+    if (infoBarSpans[2]) infoBarSpans[2].textContent = t.p2.time;
+    const compareLabels = projects[1].querySelectorAll('.compare-label');
+    if (compareLabels[0]) compareLabels[0].textContent = t.p2.beforeLabel;
+    if (compareLabels[1]) compareLabels[1].textContent = t.p2.afterLabel;
+    const compareBodies = projects[1].querySelectorAll('.compare-body');
+    if (compareBodies[0]) compareBodies[0].innerHTML = t.p2.beforeBody;
+    if (compareBodies[1]) compareBodies[1].innerHTML = t.p2.afterBody;
+
+    setProject(projects[2], t.p3);
+    const demoLabel = projects[2]?.querySelectorAll('.project-block-label')[3];
+    if (demoLabel) demoLabel.textContent = t.p3.demo;
+
+    if (projects[3]) {
+      projects[3].querySelector('.project-title').textContent = t.p4.title;
+      projects[3].querySelector('.project-subtitle').textContent = t.p4.subtitle;
+      projects[3].querySelectorAll('.project-block-label')[0].textContent = t.p4.validation;
+      projects[3].querySelectorAll('.project-block-content')[0].innerHTML = t.p4.body;
+      const live = projects[3].querySelector('[style*="margin-top:6px"]');
+      if (live) live.textContent = t.p4.live;
+    }
+
+    setText('#experience .section-title', t.experienceTitle);
+    document.querySelectorAll('.timeline-item').forEach((item, index) => {
+      const data = t.exp[index];
+      if (!data) return;
+      item.querySelector('.timeline-company').textContent = data.company;
+      item.querySelector('.timeline-role').textContent = data.role;
+      item.querySelectorAll('.project-tag').forEach((tag, tagIndex) => {
+        if (data.tags[tagIndex]) tag.textContent = data.tags[tagIndex];
+      });
+      item.querySelector('.timeline-desc').innerHTML = data.desc;
+    });
+
+    setHTML('#about .section-title', t.aboutTitle);
+    setHTML('#about .section-lede', t.aboutBody);
+    setHTML('#contact .section-title', t.contactTitle);
+    const contactEmail = document.querySelector('#contact a[href^="mailto:"]');
+    if (contactEmail) {
+      contactEmail.textContent = t.contactEmail;
+      contactEmail.href = `mailto:${t.contactEmail}`;
+    }
+    setText('#contact .closing-contact-item:last-child .value span:last-child', t.contactStatus);
+    setText('footer .wrap div:last-child', t.footerUpdated);
+
+    langZh.classList.toggle('active', lang === 'zh');
+    langEn.classList.toggle('active', lang === 'en');
+    if (options.instantTitle) {
+      clearTimeout(typeTimer);
+      typewriter.textContent = t.typewriter;
+      caret.classList.add('gone');
       heroSub.classList.add('show');
       heroTag.classList.add('show');
       heroCard.classList.add('show');
     }
   }
-  setTimeout(typeChar, startDelay);
+
+  function typeChar() {
+    const fullText = copy[currentLang].typewriter;
+    if (typeIndex < fullText.length) {
+      typewriter.textContent = fullText.slice(0, typeIndex + 1);
+      typeIndex++;
+      typeTimer = setTimeout(typeChar, charDelay + (Math.random() * 40 - 20));
+    } else {
+      typeTimer = setTimeout(() => {
+        caret.classList.add('gone');
+      }, 1000);
+      heroSub.classList.add('show');
+      heroTag.classList.add('show');
+      heroCard.classList.add('show');
+    }
+  }
+
+  renderLanguage('zh');
+  typeTimer = setTimeout(typeChar, startDelay);
+  langZh.addEventListener('click', () => renderLanguage('zh', { instantTitle: true }));
+  langEn.addEventListener('click', () => renderLanguage('en', { instantTitle: true }));
 
   // --- scroll-triggered project entrances ---
-  const projects = document.querySelectorAll('[data-project]');
+  const projectCards = document.querySelectorAll('[data-project]');
   const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, idx) => {
+    entries.forEach((e) => {
       if (e.isIntersecting) {
         const target = e.target;
         const delay = parseInt(target.dataset.delay || '0', 10);
@@ -1167,7 +1479,7 @@
     });
   }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
 
-  projects.forEach((p, i) => {
+  projectCards.forEach((p, i) => {
     p.dataset.delay = (i * 100).toString();
     io.observe(p);
   });
