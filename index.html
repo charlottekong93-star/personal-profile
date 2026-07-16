@@ -380,6 +380,7 @@
   .project-meta {
     display: flex; flex-direction: column;
     gap: 14px;
+    min-width: 0;
   }
   .project-index {
     font-family: var(--mono);
@@ -417,6 +418,7 @@
     display: flex; flex-direction: column;
     gap: 20px;
     transition: gap .4s ease;
+    min-width: 0;
   }
   .project:hover .project-body { gap: 26px; }
 
@@ -640,6 +642,7 @@
   /* ---------- podcast card ---------- */
   .podcast-card {
     display: flex; align-items: center; gap: 20px;
+    width: 100%; min-width: 0;
     padding: 20px;
     background: var(--bg-elevated);
     border: 1px solid var(--line);
@@ -657,7 +660,7 @@
     object-fit: cover;
     flex-shrink: 0;
   }
-  .podcast-card-info { display: flex; flex-direction: column; gap: 6px; }
+  .podcast-card-info { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
   .podcast-card-title { font-size: 16px; font-weight: 600; color: var(--ink); }
   .podcast-card-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
   .podcast-card-meta {
@@ -666,10 +669,26 @@
   }
   .podcast-card-subs {
     font-family: var(--mono); font-size: 12px;
-    color: var(--accent-ink); font-weight: 500;
+    color: var(--accent-ink); font-weight: 500; white-space: nowrap;
   }
   .podcast-card-platform {
-    font-family: var(--mono); font-size: 11px; color: var(--muted-soft);
+    font-family: var(--mono); font-size: 11px; color: var(--muted-soft); white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .podcast-card { padding: 14px; gap: 12px; }
+    .podcast-card-cover { width: 64px; height: 64px; }
+    .podcast-card-meta { gap: 8px; flex-wrap: wrap; }
+  }
+
+  .project-flow-summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  @media (max-width: 640px) {
+    .project-flow-summary { flex-wrap: wrap; gap: 8px 10px; }
+    .project-flow-summary .flow-arrow { display: none; }
+    .project-flow-summary .flow-time { margin-left: 0 !important; }
   }
 
   /* ---------- before/after compare ---------- */
@@ -779,7 +798,7 @@
         </h1>
 
         <p class="hero-sub" id="heroSub">
-          <strong>字节跳动风险治理产品运营出身，7 年互联网运营经验。</strong>
+          <strong>字节跳动风险治理产品运营出身，6 年+互联网运营经验。</strong>
           主导过 TikTok 内容安全自动化审核落地与全球数据指标体系搭建；Gap 期用 AI 重建个人工作系统，现寻找 AI Agent 产品 / 增长运营方向机会。
         </p>
 
@@ -851,7 +870,7 @@
                   <div class="podcast-card-title">Double C 聊天室</div>
                   <div class="podcast-card-desc">我们是 Cici 和 Chris，两位 30+ 的互联网大厂「毕业生」</div>
                   <div class="podcast-card-meta">
-                    <span class="podcast-card-subs">307 已订阅</span>
+                    <span class="podcast-card-subs">350 人已订阅</span>
                     <span class="podcast-card-platform">小宇宙</span>
                   </div>
                 </div>
@@ -867,7 +886,7 @@
           <div class="project-index">P · 02</div>
           <div class="project-tags">
             <span class="project-tag level-1">Workflow Skill</span>
-            <span class="project-tag level-2">Agent</span>
+            <span class="project-tag level-2">上下文设计</span>
           </div>
         </div>
 
@@ -878,33 +897,34 @@
           <div class="project-block">
             <div class="project-block-label">Problem</div>
             <div class="project-block-content">
-              播客后期写 Shownote、做剪辑标注、跟进复盘——费时且输出质量容易因个人状态波动。
+              播客后期包含剪辑标注工作稿、Shownote、标题和发布复盘，多项任务前后依赖，又需要保留内容判断。每期只把逐字稿交给通用 AI，不仅要反复解释节目背景，输出质量也容易随提示方式和个人状态波动。
             </div>
           </div>
 
           <div class="project-block">
             <div class="project-block-label">Action</div>
             <div class="project-block-content">
-              <strong>Workflow Skill 层</strong> —— 把剪辑标注、Shownote 生成、标题撰写、发布复盘拆解为四个结构化 Skill，上传逐字稿后按顺序调用，每步输出直接喂入下一步。<br/><br/>
-              <strong>复盘 Agent</strong> —— 监听 RSS，新集发布后自动生成档案草稿、设定提醒，全程无需手动触发。
+              <strong>上下文</strong> —— 将节目定位、目标听众、主持人表达风格和历史优秀 Shownote 作为长期背景；每期再加入本期逐字稿、时间戳和当前制作阶段，让 AI 知道节目在对谁说话、应该如何表达，以及任务进行到哪一步。<br/><br/>
+              <strong>Workflow</strong> —— 把剪辑标注工作稿、Shownote、标题、发布复盘拆成 4 个 Skill。每个 Skill 都有明确的输入、输出和人工确认节点；确认后的结果可以进入下一步，不需要每期从头解释。发布后，追踪 &amp; 复盘 Agent 监听 RSS，生成档案草稿并设置复盘提醒。<br/><br/>
+              <strong>质量控制</strong> —— 不添加逐字稿中不存在的观点；观点和时间戳必须能回溯原文；内容取舍与最终表达保留人工判断。人工确认后的修改结果会继续用于调整 Skill，让下一次输出更贴近节目标准。
             </div>
           </div>
 
           <div class="project-block">
             <div class="project-block-label">Result</div>
             <div class="project-block-content">
-              制作时间缩短 <strong>80% 以上</strong>，输出质量稳定，复盘不再遗漏。
+              一份 33 分钟、5000+ 字的精剪逐字稿，约 3 分钟生成结构化 Shownote 初稿；整体制作时间减少 <strong>80% 以上</strong>，内容校验和发布复盘成为默认流程。
             </div>
           </div>
 
           <div style="margin-top: 16px;">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding: 10px 14px; background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--line);">
+            <div class="project-flow-summary" style="margin-bottom: 14px; padding: 10px 14px; background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--line);">
               <span style="font-family: var(--mono); font-size: 11px; color: var(--muted-soft);">INPUT</span>
-              <span style="font-size: 13px; color: var(--ink-soft);">33 分钟对话 · 5000+ 字逐字稿</span>
-              <span style="font-family: var(--mono); font-size: 13px; color: var(--muted-soft); margin: 0 4px;">→</span>
-              <span style="font-size: 13px; color: var(--ink-soft);">结构化 Shownote</span>
+              <span class="flow-input" style="font-size: 13px; color: var(--ink-soft);">33 分钟 · 5000+ 字精剪逐字稿</span>
+              <span class="flow-arrow" style="font-family: var(--mono); font-size: 13px; color: var(--muted-soft); margin: 0 4px;">→</span>
+              <span class="flow-output" style="font-size: 13px; color: var(--ink-soft);">结构化 Shownote 初稿</span>
               <span style="font-family: var(--mono); font-size: 11px; color: var(--muted-soft);">OUTPUT</span>
-              <span style="margin-left: auto; font-family: var(--mono); font-size: 11px; padding: 3px 8px; background: oklch(0.95 0.03 155); color: var(--accent-ink); border-radius: 4px;">~3 分钟完成</span>
+              <span class="flow-time" style="margin-left: auto; font-family: var(--mono); font-size: 11px; padding: 3px 8px; background: oklch(0.95 0.03 155); color: var(--accent-ink); border-radius: 4px;">约 3 分钟</span>
             </div>
 
             <div class="compare-wrap">
@@ -942,33 +962,35 @@
         <div class="project-meta">
           <div class="project-index">P · 03</div>
           <div class="project-tags">
-            <span class="project-tag level-1">需求理解</span>
-            <span class="project-tag">协作场景设计</span>
+            <span class="project-tag level-1">Tool Calling</span>
+            <span class="project-tag">Agent 行为设计</span>
           </div>
         </div>
 
         <div class="project-body">
-          <h3 class="project-title">飞书 AI 机器人</h3>
+          <h3 class="project-title">飞书 AI Agent</h3>
           <div class="project-subtitle">— 为真实协作场景设计的 Agent</div>
 
           <div class="project-block">
             <div class="project-block-label">Problem</div>
             <div class="project-block-content">
-              飞书是主要协作平台，但缺少真正懂工作流的 AI 助手——通用 AI 不理解飞书结构，自带功能又不够灵活。
+              飞书是我的主要协作环境，但通用 AI 无法直接读取或操作真实的文档、多维表格、群聊和日程；仅给出文字建议，也无法确认任务是否真的在系统中完成。
             </div>
           </div>
 
           <div class="project-block">
             <div class="project-block-label">Action</div>
             <div class="project-block-content">
-              用 <span class="pill">Node.js</span> + <span class="pill">DeepSeek API</span> + <span class="pill">lark-cli</span> 搭建 Bridge Server，接入文档读写、多维表格、日程查询等 <strong>8 个飞书工具</strong>，通过 System Prompt 赋予 Agent 主动拆解任务的能力。
+              <strong>系统连接</strong> —— 使用 <span class="pill">Node.js</span>、<span class="pill">DeepSeek API</span> 和 <span class="pill">lark-cli</span> 搭建 Bridge Server，接入文档、多维表格、群聊、日程等 <strong>15 个工具</strong>，让 Agent 能在真实飞书环境中读取和执行任务。<br/><br/>
+              <strong>行为控制</strong> —— 用 System Prompt 约束任务拆解、工具调用和异常处理；用摘要式长期记忆保留个人偏好和历史决定；通过工具权限限制高风险操作，保留必要的人工确认。
             </div>
           </div>
 
           <div class="project-block">
             <div class="project-block-label">Result</div>
             <div class="project-block-content">
-              直接在飞书对话里完成内容管理，<strong>无需切换任何界面</strong>。
+              一次修改多维表格名称时，Agent 曾声称操作成功，但系统中的名称并未正确更新。后来我为写入工具增加「执行后回读」机制：操作完成后重新读取飞书中的真实状态，只有结果与目标一致时才确认成功，否则继续检查或重试。<br/><br/>
+              <strong>执行工具 → 回读真实状态 → 对照目标 → 确认成功或重试</strong>
             </div>
           </div>
 
@@ -1110,9 +1132,9 @@
           <br/><br/>
           过去我在字节负责 TikTok 内容安全自动化审核和全球数据指标体系，推动模型替代 50% 人工审核任务、审核人力减少 74%；在 TikTok 达人平台拆解注册到履约出单链路，通过样品策略、自动审核和达人分层提升核心转化与留存。
           <br/><br/>
-          Gap 期我继续把这套能力迁移到 AI 场景：搭建播客内容 AI workflow、飞书 AI 机器人和个人知识管理系统，把高频任务拆成 prompt、skill、工具调用和复盘机制。
+          Gap 期我继续把这套能力迁移到 AI 场景：搭建播客内容 AI Workflow、飞书 Agent 和个人知识管理系统，把高频任务拆解为上下文、Skill、工具调用、人工确认和结果验证机制。
           <br/><br/>
-          我希望在 AI Agent 产品 / 增长运营中提供的价值，是把用户真实任务、AI 能力和产品路径连接起来：识别用户在哪里卡住，设计让他们更容易成功的使用路径，并把有效方法沉淀为产品机制、增长实验、内容案例或可复用 workflow。
+          我希望在 AI Agent 产品 / 增长运营中提供的价值，是把用户真实任务、AI 能力和产品路径连接起来：识别用户在哪一步卡住，判断问题来自信息、流程、工具还是策略，并把有效方法沉淀为产品机制、增长实验或可复用 Workflow。
         </p>
       </div>
     </div>
@@ -1162,17 +1184,17 @@
 <footer>
   <div class="wrap" style="display:flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
     <div>© 2026 Cuiping Chen · Built with care, edited by hand.</div>
-    <div>Last updated · May 2026</div>
+    <div>Last updated · July 2026</div>
   </div>
 </footer>
 
 <script>
   const copy = {
     zh: {
-      pageTitle: '陈翠萍 · AI Agent 产品运营',
+      pageTitle: '陈翠萍 · AI Agent 产品 / 增长运营',
       typewriter: '用 AI 重构创作与运营工作方式',
       nav: ['作品', '经历', '关于', '联系'],
-      heroSub: '<strong>字节跳动风险治理产品运营出身，7 年互联网运营经验。</strong> 主导过 TikTok 内容安全自动化审核落地与全球数据指标体系搭建；Gap 期用 AI 重建个人工作系统，现寻找 AI Agent 产品 / 增长运营方向机会。',
+      heroSub: '<strong>字节跳动风险治理产品运营出身，6 年+互联网运营经验。</strong> 主导过 TikTok 内容安全自动化审核落地与全球数据指标体系搭建；Gap 期用 AI 重建个人工作系统，现寻找 AI Agent 产品 / 增长运营方向机会。',
       heroTag: '开放求职中 · AI Agent 产品 / 增长运营',
       cardName: '陈翠萍',
       cardIntro: '内容创作者 · 产品运营<br/>播客「Double C 聊天室」主播',
@@ -1186,35 +1208,36 @@
           '与 Cici 共同主持，面向 25–35 岁一线城市年轻人；建立从<strong>选题确认 → 录制复盘 → 洞察提炼 → 方法论归档</strong>的完整循环。每期结束后系统性总结延伸选题、对话节奏规律，沉淀到可复用的内容方法论库中。',
           '持续更新 19 期，从每期对话中提炼内容结构规律，形成可复用的方法论文档，指导后续选题与录制节奏。'
         ],
+        podcastTitle: 'Double C 聊天室',
         podcastDesc: '我们是 Cici 和 Chris，两位 30+ 的互联网大厂「毕业生」',
-        podcastSubs: '307 已订阅',
+        podcastSubs: '350 人已订阅',
         podcastPlatform: '小宇宙'
       },
       p2: {
-        tags: ['Workflow Skill', 'Agent'],
+        tags: ['Workflow Skill', '上下文设计'],
         title: '播客内容 AI 系统',
         subtitle: '— Workflow Skill + 追踪 & 复盘 Agent',
         blocks: [
-          '播客后期写 Shownote、做剪辑标注、跟进复盘——费时且输出质量容易因个人状态波动。',
-          '<strong>Workflow Skill 层</strong> —— 把剪辑标注、Shownote 生成、标题撰写、发布复盘拆解为四个结构化 Skill，上传逐字稿后按顺序调用，每步输出直接喂入下一步。<br/><br/><strong>复盘 Agent</strong> —— 监听 RSS，新集发布后自动生成档案草稿、设定提醒，全程无需手动触发。',
-          '制作时间缩短 <strong>80% 以上</strong>，输出质量稳定，复盘不再遗漏。'
+          '播客后期包含剪辑标注工作稿、Shownote、标题和发布复盘，多项任务前后依赖，又需要保留内容判断。每期只把逐字稿交给通用 AI，不仅要反复解释节目背景，输出质量也容易随提示方式和个人状态波动。',
+          '<strong>上下文</strong> —— 将节目定位、目标听众、主持人表达风格和历史优秀 Shownote 作为长期背景；每期再加入本期逐字稿、时间戳和当前制作阶段，让 AI 知道节目在对谁说话、应该如何表达，以及任务进行到哪一步。<br/><br/><strong>Workflow</strong> —— 把剪辑标注工作稿、Shownote、标题、发布复盘拆成 4 个 Skill。每个 Skill 都有明确的输入、输出和人工确认节点；确认后的结果可以进入下一步，不需要每期从头解释。发布后，追踪 &amp; 复盘 Agent 监听 RSS，生成档案草稿并设置复盘提醒。<br/><br/><strong>质量控制</strong> —— 不添加逐字稿中不存在的观点；观点和时间戳必须能回溯原文；内容取舍与最终表达保留人工判断。人工确认后的修改结果会继续用于调整 Skill，让下一次输出更贴近节目标准。',
+          '一份 33 分钟、5000+ 字的精剪逐字稿，约 3 分钟生成结构化 Shownote 初稿；整体制作时间减少 <strong>80% 以上</strong>，内容校验和发布复盘成为默认流程。'
         ],
-        input: '33 分钟对话 · 5000+ 字逐字稿',
-        output: '结构化 Shownote',
-        time: '~3 分钟完成',
+        input: '33 分钟 · 5000+ 字精剪逐字稿',
+        output: '结构化 Shownote 初稿',
+        time: '约 3 分钟',
         beforeLabel: '逐字稿原文 · 上传即处理',
         afterLabel: 'AI 生成 Shownote',
         beforeBody: '<span style="opacity:.5">Chris 00:05</span><br/>这期其实是从想要聊一下我们的来时路……没有想到已经突破了订阅数 200 人，所以今天想趁着这个机会彼此的开诚布公的讲一下……其实也不单只是说想要庆祝这个数字而已，更想要就知道说……<br/><br/><span style="opacity:.5">Cici 01:04</span><br/>你先说。<br/><br/><span style="opacity:.5">Chris 01:04</span><br/>好，其实我们在很早之前的节目里面我们有坦诚过，特别是我在做这件事情，其实刚开始会看很多外在的目标，比如说……',
         afterBody: '<span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ 简介撰写</span><br/>大家好～这期是节目做满半年、订阅突破 200 的阶段性回顾，聊聊：这段时间，我们自己有哪些真实的变化。<br/><br/><span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ 时间轴标注 · 金句提炼</span><br/><span class="ts">00:13</span>以为只是来庆祝 200 订阅——结果聊出了一整年的复盘<br/><span class="ts">01:33</span><strong>感受标签法</strong>：数据之外，开始记录「当下在不在状态」<br/><span class="ts">05:32</span>从「做了就好」到「做这件事的时候我是高兴的」<br/><span class="ts">13:32</span>把历期内容喂给 AI：收听量最高的几期，都是还卡在问题里的时候'
       },
       p3: {
-        tags: ['需求理解', '协作场景设计'],
-        title: '飞书 AI 机器人',
+        tags: ['Tool Calling', 'Agent 行为设计'],
+        title: '飞书 AI Agent',
         subtitle: '— 为真实协作场景设计的 Agent',
         blocks: [
-          '飞书是主要协作平台，但缺少真正懂工作流的 AI 助手——通用 AI 不理解飞书结构，自带功能又不够灵活。',
-          '用 <span class="pill">Node.js</span> + <span class="pill">DeepSeek API</span> + <span class="pill">lark-cli</span> 搭建 Bridge Server，接入文档读写、多维表格、日程查询等 <strong>8 个飞书工具</strong>，通过 System Prompt 赋予 Agent 主动拆解任务的能力。',
-          '直接在飞书对话里完成内容管理，<strong>无需切换任何界面</strong>。'
+          '飞书是我的主要协作环境，但通用 AI 无法直接读取或操作真实的文档、多维表格、群聊和日程；仅给出文字建议，也无法确认任务是否真的在系统中完成。',
+          '<strong>系统连接</strong> —— 使用 <span class="pill">Node.js</span>、<span class="pill">DeepSeek API</span> 和 <span class="pill">lark-cli</span> 搭建 Bridge Server，接入文档、多维表格、群聊、日程等 <strong>15 个工具</strong>，让 Agent 能在真实飞书环境中读取和执行任务。<br/><br/><strong>行为控制</strong> —— 用 System Prompt 约束任务拆解、工具调用和异常处理；用摘要式长期记忆保留个人偏好和历史决定；通过工具权限限制高风险操作，保留必要的人工确认。',
+          '一次修改多维表格名称时，Agent 曾声称操作成功，但系统中的名称并未正确更新。后来我为写入工具增加「执行后回读」机制：操作完成后重新读取飞书中的真实状态，只有结果与目标一致时才确认成功，否则继续检查或重试。<br/><br/><strong>执行工具 → 回读真实状态 → 对照目标 → 确认成功或重试</strong>'
         ],
         demo: '演示'
       },
@@ -1241,17 +1264,17 @@
         }
       ],
       aboutTitle: '通过 AI 重建生活方式的<br/><span class="em">内容创作者，产品运营人</span>',
-      aboutBody: '我想做 AI Agent 产品 / 增长运营，因为我擅长把复杂工具变成用户真正能跑通的使用路径。<br/><br/>过去我在字节负责 TikTok 内容安全自动化审核和全球数据指标体系，推动模型替代 50% 人工审核任务、审核人力减少 74%；在 TikTok 达人平台拆解注册到履约出单链路，通过样品策略、自动审核和达人分层提升核心转化与留存。<br/><br/>Gap 期我继续把这套能力迁移到 AI 场景：搭建播客内容 AI workflow、飞书 AI 机器人和个人知识管理系统，把高频任务拆成 prompt、skill、工具调用和复盘机制。<br/><br/>我希望在 AI Agent 产品 / 增长运营中提供的价值，是把用户真实任务、AI 能力和产品路径连接起来：识别用户在哪里卡住，设计让他们更容易成功的使用路径，并把有效方法沉淀为产品机制、增长实验、内容案例或可复用 workflow。',
+      aboutBody: '我想做 AI Agent 产品 / 增长运营，因为我擅长把复杂工具变成用户真正能跑通的使用路径。<br/><br/>过去我在字节负责 TikTok 内容安全自动化审核和全球数据指标体系，推动模型替代 50% 人工审核任务、审核人力减少 74%；在 TikTok 达人平台拆解注册到履约出单链路，通过样品策略、自动审核和达人分层提升核心转化与留存。<br/><br/>Gap 期我继续把这套能力迁移到 AI 场景：搭建播客内容 AI Workflow、飞书 Agent 和个人知识管理系统，把高频任务拆解为上下文、Skill、工具调用、人工确认和结果验证机制。<br/><br/>我希望在 AI Agent 产品 / 增长运营中提供的价值，是把用户真实任务、AI 能力和产品路径连接起来：识别用户在哪一步卡住，判断问题来自信息、流程、工具还是策略，并把有效方法沉淀为产品机制、增长实验或可复用 Workflow。',
       contactTitle: '想聊聊？<span class="serif em">随时</span>',
       contactEmail: 'charlotte.chan@163.com',
       contactStatus: 'Open to AI Agent PM/Ops',
-      footerUpdated: 'Last updated · May 2026'
+      footerUpdated: 'Last updated · July 2026'
     },
     en: {
       pageTitle: 'Cuiping Chen · AI Agent Product / Growth Ops',
       typewriter: 'Building AI Workflows for Content and Operations',
       nav: ['Projects', 'Experience', 'About', 'Contact'],
-      heroSub: 'Product operator and content creator with 7 years of experience in user growth, data-driven operations, and workflow automation. Now exploring AI Agent Product / Growth Ops roles, with hands-on projects in podcast AI workflows, Lark agents, and personal knowledge systems.',
+      heroSub: 'Product operator and content creator with 6+ years of experience in user growth, data-driven operations, and workflow automation. Now exploring AI Agent Product / Growth Ops roles, with hands-on projects in podcast AI workflows, Lark agents, and personal knowledge systems.',
       heroTag: 'Open to AI Agent Product / Growth Ops',
       cardName: 'Cuiping Chen',
       cardIntro: 'Product Operator · Content Creator<br/>Co-host, Double C Chatroom podcast',
@@ -1265,21 +1288,22 @@
           'Co-hosted the show with Cici for young urban listeners navigating work, relationships, money, and self-understanding. Built a repeatable loop for topic alignment, recording review, insight extraction, and content methodology archiving.',
           'Published 19 episodes and turned recurring conversation patterns into reusable notes that guide future topics, recording rhythm, and content decisions.'
         ],
+        podcastTitle: 'Double C Chatroom',
         podcastDesc: 'A podcast by Cici and Chris, two 30+ former internet company operators navigating life after Big Tech.',
-        podcastSubs: '307 subscribers',
+        podcastSubs: '350 subscribers',
         podcastPlatform: 'Xiaoyuzhou'
       },
       p2: {
-        tags: ['AI Workflow', 'Agent'],
+        tags: ['Workflow Skills', 'Context Design'],
         title: 'Podcast AI Workflow',
-        subtitle: '— From transcript to show notes, titles, and review',
+        subtitle: '— Four workflow skills, backed by a tracking and review agent',
         blocks: [
-          'Podcast production involves many repeatable but judgment-heavy tasks: editing notes, show notes, titles, timelines, and post-release reviews. The work is time-consuming, and quality can fluctuate with energy and attention.',
-          'Designed a set of structured AI skills for editing notes, show notes, title options, and post-release reviews. Each step has clear inputs, outputs, and quality checks, so one episode can move through the workflow without starting from scratch every time.<br/><br/>Built a review agent that monitors the podcast RSS feed, creates episode archive drafts after release, and sets follow-up reminders automatically.',
-          'Reduced production time by <strong>80%+</strong>, improved output consistency, and made post-release review part of the default workflow.'
+          'Each podcast episode moves through several connected, judgment-heavy steps: a timestamped edit guide, show notes, titles, and post-release review. A generic chatbot can handle one-off prompts, but it needs the show\'s context explained again each time, and the quality is inconsistent.',
+          '<strong>Context</strong> — Each skill receives two layers of context. Stable context covers the show\'s positioning, audience, host voice, and examples of strong past show notes. Episode-specific context includes the current transcript, timestamps, and production stage.<br/><br/><strong>Workflow</strong> — I turned the edit guide, show notes, titles, and post-release review into four separate skills. Each has a defined input, output, and human approval point. Approved output flows into the next step, so the process does not reset for every episode. After publication, a tracking and review agent monitors the RSS feed, creates an episode archive draft, and schedules follow-up reminders.<br/><br/><strong>Quality control</strong> — No invented claims. Every point and timestamp must trace back to the transcript. Editorial choices and final wording stay with the human, and final edits are fed back into the skills to improve the next run.',
+          'For a 33-minute episode with a 5,000+ word edited transcript, the workflow produces a structured first draft of the show notes in about three minutes. End-to-end production time is down <strong>80%+</strong>, and content validation and post-release review are now standard steps.'
         ],
-        input: '33-min conversation · 5,000+ word transcript',
-        output: 'structured show notes',
+        input: '33-min episode · 5,000+ word edited transcript',
+        output: 'show-notes first draft',
         time: '~3 min',
         beforeLabel: 'Raw transcript · uploaded directly',
         afterLabel: 'AI-generated show notes',
@@ -1287,13 +1311,13 @@
         afterBody: '<span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ Intro draft</span><br/>In this episode, we look back on six months of making the podcast and passing 200 subscribers — and talk about what actually changed for us along the way.<br/><br/><span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ Timeline and highlights</span><br/><span class="ts">00:13</span>What began as a small milestone turned into a deeper review of the year<br/><span class="ts">01:33</span><strong>Feeling tags</strong>: tracking not just data, but whether we felt present while creating<br/><span class="ts">05:32</span>From “just finish it” to “do I feel alive while doing this?”<br/><span class="ts">13:32</span>Using AI to review past episodes: the most-listened episodes came from questions we were still living through'
       },
       p3: {
-        tags: ['Tool Calling', 'Workflow Design'],
+        tags: ['Tool Calling', 'Agent Behavior Design'],
         title: 'Lark AI Agent',
         subtitle: '— A personal agent for real Lark workflows',
         blocks: [
-          'Lark is my main collaboration workspace, but generic AI tools do not understand its documents, tables, chats, or permissions. I wanted an assistant that could work inside the tools I already use.',
-          'Built a local bridge server with <span class="pill">Node.js</span>, <span class="pill">DeepSeek API</span>, and <span class="pill">lark-cli</span>. Connected Lark documents, Bitable, calendar, chat history, and other tools through function calling, with system prompts guiding task breakdown and tool use.',
-          'Turned Lark chat into an interface for reading, writing, searching, and managing work materials without switching contexts.'
+          'Generic AI can suggest what to do in Lark, but it cannot directly work with the documents, Bitable records, group chats, and calendars I use every day. More importantly, a text response does not prove that an action actually happened in the system.',
+          '<strong>System connection</strong> — Built a local Bridge Server with <span class="pill">Node.js</span>, <span class="pill">DeepSeek API</span>, and <span class="pill">lark-cli</span>, then connected <strong>15 scoped tools</strong> for documents, Bitable, group chats, calendars, and other Lark workflows.<br/><br/><strong>Agent behavior</strong> — System prompts define how the agent breaks down tasks, selects tools, and handles failures. Summary-based memory carries forward preferences and past decisions. High-risk actions are limited through tool permissions and human checkpoints.',
+          'One failure changed how I designed the agent. After a Bitable rename, it reported success even though Lark still showed the wrong name. I added read-after-write validation: after every write, the agent reads the live state, compares it with the target, and confirms success only when they match. Otherwise, it investigates or retries.<br/><br/><strong>Act → Read live state → Compare with target → Confirm or retry</strong>'
         ],
         demo: 'Demo'
       },
@@ -1320,7 +1344,7 @@
         }
       ],
       aboutTitle: 'Product operator and content creator<br/><span class="em">building practical AI workflows</span>',
-      aboutBody: 'I work at the intersection of user behavior, workflow design, and AI adoption.<br/><br/>My background is in product operations and growth: breaking down user journeys, finding friction, and turning messy workflows into systems that scale. At ByteDance, that meant automating content safety review. On a TikTok creator platform, it meant improving the path from creator registration to fulfillment and GMV.<br/><br/>During my career transition, I have been applying the same operating muscle to AI: building a podcast AI workflow, a Lark AI agent, and a personal knowledge system. These projects helped me understand what makes AI useful beyond a single chat: context, tool access, review loops, and repeatable workflows.<br/><br/>The value I want to bring to AI Agent Product / Growth Ops is simple: help users move from trying AI once to making it part of how they actually work.',
+      aboutBody: 'I work where user behavior, workflow design, and AI adoption meet.<br/><br/>My background is in product operations and growth: mapping user journeys, finding friction, and turning messy processes into systems that scale. At ByteDance, I helped automate content safety review. On a TikTok creator platform, I improved the path from creator registration to fulfillment and GMV.<br/><br/>During my career break, I built a podcast AI workflow, a Lark agent, and a personal knowledge system. In each project, I break a recurring job into context, skills, tool calls, human checkpoints, and result validation, then improve the workflow through real use.<br/><br/>In AI Agent Product / Growth Ops, I can diagnose where users get stuck: missing context, a broken step, a tool limitation, or the wrong strategy. I then turn what works into product mechanisms, growth experiments, or reusable workflows.',
       contactTitle: 'Want to talk?<span class="serif em"> Always open.</span>',
       contactEmail: 'charlotte.kong93@gmail.com',
       contactStatus: 'Open to AI Agent PM/Ops',
@@ -1381,15 +1405,15 @@
 
     const projects = document.querySelectorAll('[data-project]');
     setProject(projects[0], t.p1);
+    setText('.podcast-card-title', t.p1.podcastTitle);
     setText('.podcast-card-desc', t.p1.podcastDesc);
     setText('.podcast-card-subs', t.p1.podcastSubs);
     setText('.podcast-card-platform', t.p1.podcastPlatform);
 
     setProject(projects[1], t.p2);
-    const infoBarSpans = projects[1].querySelectorAll('[style*="font-size: 13px"], [style*="margin-left: auto"]');
-    if (infoBarSpans[0]) infoBarSpans[0].textContent = t.p2.input;
-    if (infoBarSpans[1]) infoBarSpans[1].textContent = t.p2.output;
-    if (infoBarSpans[2]) infoBarSpans[2].textContent = t.p2.time;
+    setText('.project-flow-summary .flow-input', t.p2.input);
+    setText('.project-flow-summary .flow-output', t.p2.output);
+    setText('.project-flow-summary .flow-time', t.p2.time);
     const compareLabels = projects[1].querySelectorAll('.compare-label');
     if (compareLabels[0]) compareLabels[0].textContent = t.p2.beforeLabel;
     if (compareLabels[1]) compareLabels[1].textContent = t.p2.afterLabel;
