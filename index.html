@@ -513,6 +513,188 @@
     font-family: var(--mono);
   }
 
+  .p2-proof-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+  }
+  .p2-proof-label {
+    margin: 24px 0 10px;
+  }
+  .p2-agent-flow {
+    margin-top: 22px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background:
+      radial-gradient(circle at 92% 8%, oklch(0.94 0.035 155 / 0.8), transparent 34%),
+      var(--bg-elevated);
+  }
+  .p2-agent-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 12px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.82);
+  }
+  .p2-agent-speaker {
+    flex: 0 0 auto;
+    color: var(--accent-ink);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .p2-agent-message-copy {
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .p2-agent-connector {
+    display: flex;
+    justify-content: center;
+    padding: 7px 0;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .p2-agent-card {
+    padding: 15px;
+    border-color: oklch(0.82 0.065 155);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    background: oklch(0.97 0.02 155);
+  }
+  .p2-agent-card-title {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .p2-agent-card-intro {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .p2-agent-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .p2-agent-action {
+    min-width: 0;
+    padding: 10px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.72);
+  }
+  .p2-agent-action-num {
+    color: var(--muted-soft);
+    font-family: var(--mono);
+    font-size: 9px;
+  }
+  .p2-agent-action-title {
+    margin-top: 5px;
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .p2-agent-action-copy {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  .p2-agent-outputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .p2-agent-output {
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.82);
+  }
+  .p2-agent-output-label {
+    color: var(--accent-ink);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.05em;
+  }
+  .p2-agent-output-title {
+    margin-top: 4px;
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .p2-agent-output-copy {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .project.in .p2-agent-message,
+  .project.in .p2-agent-card,
+  .project.in .p2-agent-action,
+  .project.in .p2-agent-output {
+    animation: p2-flow-focus 8.5s ease-in-out infinite;
+    animation-delay: var(--flow-delay, 0s);
+  }
+  .project.in .p2-agent-message { --flow-delay: 0s; }
+  .project.in .p2-agent-card { --flow-delay: 1.2s; }
+  .project.in .p2-agent-action:nth-child(1) { --flow-delay: 2.25s; }
+  .project.in .p2-agent-action:nth-child(2) { --flow-delay: 3.15s; }
+  .project.in .p2-agent-action:nth-child(3) { --flow-delay: 4.05s; }
+  .project.in .p2-agent-output { --flow-delay: 5.5s; }
+  .project.in .p2-agent-connector {
+    animation: p2-flow-arrow 8.5s ease-in-out infinite;
+    animation-delay: var(--flow-delay, 0s);
+  }
+  .project.in .p2-agent-connector.is-first { --flow-delay: .75s; }
+  .project.in .p2-agent-connector.is-second { --flow-delay: 4.85s; }
+  @keyframes p2-flow-focus {
+    0%, 8% {
+      box-shadow: 0 0 0 3px rgba(255, 216, 77, 0.9), 0 7px 18px rgba(255, 197, 38, 0.22);
+      transform: translateY(-2px);
+    }
+    14%, 100% {
+      box-shadow: none;
+      transform: translateY(0);
+    }
+  }
+  @keyframes p2-flow-arrow {
+    0%, 8% {
+      color: var(--accent-ink);
+      opacity: 1;
+      transform: translateY(3px);
+    }
+    14%, 100% {
+      color: var(--accent);
+      opacity: .62;
+      transform: translateY(0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .project.in .p2-agent-message,
+    .project.in .p2-agent-card,
+    .project.in .p2-agent-action,
+    .project.in .p2-agent-output,
+    .project.in .p2-agent-connector {
+      animation: none;
+      transform: none;
+    }
+  }
+  @media (max-width: 640px) {
+    .p2-agent-flow { padding: 15px; }
+    .p2-agent-actions,
+    .p2-agent-outputs { grid-template-columns: 1fr; }
+  }
+
   /* ---------- about / closing ---------- */
   .closing {
     padding: 120px 0 96px;
@@ -691,46 +873,6 @@
     .project-flow-summary .flow-time { margin-left: 0 !important; }
   }
 
-  /* ---------- before/after compare ---------- */
-  .compare-wrap {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 16px;
-    align-items: start;
-    margin-top: 16px;
-  }
-  @media (max-width: 640px) {
-    .compare-wrap { grid-template-columns: 1fr; }
-    .compare-arrow { display: none; }
-  }
-  .compare-panel {
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    overflow: hidden;
-  }
-  .compare-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 8px 14px;
-    border-bottom: 1px solid var(--line);
-  }
-  .compare-before .compare-label { background: var(--bg-elevated); color: var(--muted-soft); }
-  .compare-after  .compare-label { background: oklch(0.95 0.03 155); color: var(--accent-ink); }
-  .compare-body { padding: 14px; font-size: 13px; line-height: 1.7; }
-  .compare-before .compare-body { background: var(--bg-elevated); color: var(--muted); font-family: var(--mono); }
-  .compare-after  .compare-body { background: var(--bg); color: var(--ink-soft); }
-  .compare-after  .compare-body strong { color: var(--ink); font-weight: 600; }
-  .compare-after  .compare-body .ts {
-    font-family: var(--mono); font-size: 11px;
-    color: var(--accent-ink); margin-right: 6px;
-  }
-  .compare-arrow {
-    display: flex; align-items: center; padding-top: 38px;
-    color: var(--line-strong); font-size: 20px;
-  }
-
   /* === warm section + white card overrides === */
   .section-warm {
     background: var(--bg-warm);
@@ -885,39 +1027,81 @@
         <div class="project-meta">
           <div class="project-index">P · 02</div>
           <div class="project-tags">
-            <span class="project-tag level-1">Workflow Skill</span>
-            <span class="project-tag level-2">上下文设计</span>
+            <span class="project-tag level-1">AI Agent 搭建</span>
+            <span class="project-tag level-2">Agent 工作流设计</span>
           </div>
         </div>
 
         <div class="project-body">
-          <h3 class="project-title">播客内容 AI 系统</h3>
-          <div class="project-subtitle">— Workflow Skill + 追踪 & 复盘 Agent</div>
+          <h3 class="project-title">Podcast Producer Agent</h3>
+          <div class="project-subtitle">— 一个承担播客制作 PMO 角色的 Agent</div>
 
           <div class="project-block">
             <div class="project-block-label">Problem</div>
             <div class="project-block-content">
-              播客后期包含剪辑标注工作稿、Shownote、标题和发布复盘，多项任务前后依赖，又需要保留内容判断。每期只把逐字稿交给通用 AI，不仅要反复解释节目背景，输出质量也容易随提示方式和个人状态波动。
+              我已经用 AI 完成剪辑标注、Shownote、标题和发布复盘，但这些能力彼此分散。每制作一期播客，仍然需要我记住当前进度、准备对应材料、判断下一步，再逐个调用不同的 AI 工具。AI 提升了单项任务的效率，但负责顾全整个制作流程的人仍然是我。
             </div>
           </div>
 
           <div class="project-block">
             <div class="project-block-label">Action</div>
             <div class="project-block-content">
-              <strong>上下文</strong> —— 将节目定位、目标听众、主持人表达风格和历史优秀 Shownote 作为长期背景；每期再加入本期逐字稿、时间戳和当前制作阶段，让 AI 知道节目在对谁说话、应该如何表达，以及任务进行到哪一步。<br/><br/>
-              <strong>Workflow</strong> —— 把剪辑标注工作稿、Shownote、标题、发布复盘拆成 4 个 Skill。每个 Skill 都有明确的输入、输出和人工确认节点；确认后的结果可以进入下一步，不需要每期从头解释。发布后，追踪 &amp; 复盘 Agent 监听 RSS，生成档案草稿并设置复盘提醒。<br/><br/>
-              <strong>质量控制</strong> —— 不添加逐字稿中不存在的观点；观点和时间戳必须能回溯原文；内容取舍与最终表达保留人工判断。人工确认后的修改结果会继续用于调整 Skill，让下一次输出更贴近节目标准。
+              我把原本分散的播客 Skills 重构成 Podcast Producer Agent。<br/><br/>
+              <strong>How it works</strong> —— 它不只执行单项任务，还承担播客制作 PMO 角色：记录每期节目当前进行到哪一步，判断下一步应该做什么，自动调用剪辑标注、Shownote 或复盘等专项能力，并检查结果是否完成。<br/><br/>
+              <strong>我在其中的角色</strong> —— 选题、听感精剪、最终标题、内容质量和外部发布等需要创作判断的环节，Agent 会暂停并把决定权交还给我。
+              <div class="p2-agent-flow" data-project-persistent role="group" aria-label="询问 Double C 制作进度时 Podcast Producer Agent 的工作方式">
+                <div class="p2-agent-message">
+                  <span class="p2-agent-speaker">我问 Codex</span>
+                  <span class="p2-agent-message-copy">“Double C 最新一期播客制作进度到哪里了？”</span>
+                </div>
+                <div class="p2-agent-connector is-first" aria-hidden="true">↓</div>
+                <div class="p2-agent-card">
+                  <div class="p2-agent-card-title">Podcast Producer Agent</div>
+                  <div class="p2-agent-card-intro">收到问题后，由这个 Agent 完成三件事：</div>
+                  <div class="p2-agent-actions">
+                    <div class="p2-agent-action">
+                      <div class="p2-agent-action-num">01</div>
+                      <div class="p2-agent-action-title">定位节目</div>
+                      <div class="p2-agent-action-copy">确认我问的是 Double C</div>
+                    </div>
+                    <div class="p2-agent-action">
+                      <div class="p2-agent-action-num">02</div>
+                      <div class="p2-agent-action-title">查看真实进度</div>
+                      <div class="p2-agent-action-copy">读取节目设置、当前状态和本集资料</div>
+                    </div>
+                    <div class="p2-agent-action">
+                      <div class="p2-agent-action-num">03</div>
+                      <div class="p2-agent-action-title">判断下一步</div>
+                      <div class="p2-agent-action-copy">确认现在做到哪，以及接下来由谁完成</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="p2-agent-connector is-second" aria-hidden="true">↓</div>
+                <div class="p2-agent-outputs">
+                  <div class="p2-agent-output">
+                    <div class="p2-agent-output-label">Agent 更新</div>
+                    <div class="p2-agent-output-title">Obsidian 播客制作中心</div>
+                    <div class="p2-agent-output-copy">保存最新进度、下一步和相关资料入口，之后打开仍能看到。</div>
+                  </div>
+                  <div class="p2-agent-output">
+                    <div class="p2-agent-output-label">Agent 回复我</div>
+                    <div class="p2-agent-output-title">Codex 对话</div>
+                    <div class="p2-agent-output-copy">“Double C 当前进行到「当前阶段」；下一步是「下一步行动」；现在等待「对应负责人」。”</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
           <div class="project-block">
             <div class="project-block-label">Result</div>
             <div class="project-block-content">
-              一份 33 分钟、5000+ 字的精剪逐字稿，约 3 分钟生成结构化 Shownote 初稿；整体制作时间减少 <strong>80% 以上</strong>，内容校验和发布复盘成为默认流程。
+              以前，我既负责内容创作，也要记进度、安排下一步和调用不同的 AI 工具。现在，我只需询问进度或说“继续 Double C”，Agent 就会判断下一步并推进制作流程；我只在内容质量和最终发布等关键环节做决定。
             </div>
           </div>
 
           <div style="margin-top: 16px;">
+            <div class="p2-proof-label">专项 Workflow 结果</div>
             <div class="project-flow-summary" style="margin-bottom: 14px; padding: 10px 14px; background: var(--bg-elevated); border-radius: 8px; border: 1px solid var(--line);">
               <span style="font-family: var(--mono); font-size: 11px; color: var(--muted-soft);">INPUT</span>
               <span class="flow-input" style="font-size: 13px; color: var(--ink-soft);">33 分钟 · 5000+ 字精剪逐字稿</span>
@@ -927,32 +1111,6 @@
               <span class="flow-time" style="margin-left: auto; font-family: var(--mono); font-size: 11px; padding: 3px 8px; background: oklch(0.95 0.03 155); color: var(--accent-ink); border-radius: 4px;">约 3 分钟</span>
             </div>
 
-            <div class="compare-wrap">
-              <div class="compare-panel compare-before">
-                <div class="compare-label">逐字稿原文 · 上传即处理</div>
-                <div class="compare-body">
-                  <span style="opacity:.5">Chris 00:05</span><br/>
-                  这期其实是从想要聊一下我们的来时路……没有想到已经突破了订阅数 200 人，所以今天想趁着这个机会彼此的开诚布公的讲一下……其实也不单只是说想要庆祝这个数字而已，更想要就知道说……<br/><br/>
-                  <span style="opacity:.5">Cici 01:04</span><br/>
-                  你先说。<br/><br/>
-                  <span style="opacity:.5">Chris 01:04</span><br/>
-                  好，其实我们在很早之前的节目里面我们有坦诚过，特别是我在做这件事情，其实刚开始会看很多外在的目标，比如说……
-                </div>
-              </div>
-              <div class="compare-arrow">→</div>
-              <div class="compare-panel compare-after">
-                <div class="compare-label">AI 生成 Shownote</div>
-                <div class="compare-body">
-                  <span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ 简介撰写</span><br/>
-                  大家好～这期是节目做满半年、订阅突破 200 的阶段性回顾，聊聊：这段时间，我们自己有哪些真实的变化。<br/><br/>
-                  <span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ 时间轴标注 · 金句提炼</span><br/>
-                  <span class="ts">00:13</span>以为只是来庆祝 200 订阅——结果聊出了一整年的复盘<br/>
-                  <span class="ts">01:33</span><strong>感受标签法</strong>：数据之外，开始记录「当下在不在状态」<br/>
-                  <span class="ts">05:32</span>从「做了就好」到「做这件事的时候我是高兴的」<br/>
-                  <span class="ts">13:32</span>把历期内容喂给 AI：收听量最高的几期，都是还卡在问题里的时候
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </article>
@@ -1132,7 +1290,7 @@
           <br/><br/>
           过去我在字节负责 TikTok 内容安全自动化审核和全球数据指标体系，推动模型替代 50% 人工审核任务、审核人力减少 74%；在 TikTok 达人平台拆解注册到履约出单链路，通过样品策略、自动审核和达人分层提升核心转化与留存。
           <br/><br/>
-          Gap 期我继续把这套能力迁移到 AI 场景：搭建播客内容 AI Workflow、飞书 Agent 和个人知识管理系统，把高频任务拆解为上下文、Skill、工具调用、人工确认和结果验证机制。
+          Gap 期我继续把这套能力迁移到 AI 场景：搭建 Podcast Producer Agent、飞书 Agent 和个人知识管理系统，把高频任务拆解为上下文、Skill、工具调用、人工确认和结果验证机制。
           <br/><br/>
           我希望在 AI Agent 产品 / 增长运营中提供的价值，是把用户真实任务、AI 能力和产品路径连接起来：识别用户在哪一步卡住，判断问题来自信息、流程、工具还是策略，并把有效方法沉淀为产品机制、增长实验或可复用 Workflow。
         </p>
@@ -1214,21 +1372,27 @@
         podcastPlatform: '小宇宙'
       },
       p2: {
-        tags: ['Workflow Skill', '上下文设计'],
-        title: '播客内容 AI 系统',
-        subtitle: '— Workflow Skill + 追踪 & 复盘 Agent',
+        tags: ['AI Agent 搭建', 'Agent 工作流设计'],
+        title: 'Podcast Producer Agent',
+        subtitle: '— 一个承担播客制作 PMO 角色的 Agent',
         blocks: [
-          '播客后期包含剪辑标注工作稿、Shownote、标题和发布复盘，多项任务前后依赖，又需要保留内容判断。每期只把逐字稿交给通用 AI，不仅要反复解释节目背景，输出质量也容易随提示方式和个人状态波动。',
-          '<strong>上下文</strong> —— 将节目定位、目标听众、主持人表达风格和历史优秀 Shownote 作为长期背景；每期再加入本期逐字稿、时间戳和当前制作阶段，让 AI 知道节目在对谁说话、应该如何表达，以及任务进行到哪一步。<br/><br/><strong>Workflow</strong> —— 把剪辑标注工作稿、Shownote、标题、发布复盘拆成 4 个 Skill。每个 Skill 都有明确的输入、输出和人工确认节点；确认后的结果可以进入下一步，不需要每期从头解释。发布后，追踪 &amp; 复盘 Agent 监听 RSS，生成档案草稿并设置复盘提醒。<br/><br/><strong>质量控制</strong> —— 不添加逐字稿中不存在的观点；观点和时间戳必须能回溯原文；内容取舍与最终表达保留人工判断。人工确认后的修改结果会继续用于调整 Skill，让下一次输出更贴近节目标准。',
-          '一份 33 分钟、5000+ 字的精剪逐字稿，约 3 分钟生成结构化 Shownote 初稿；整体制作时间减少 <strong>80% 以上</strong>，内容校验和发布复盘成为默认流程。'
+          '我已经用 AI 完成剪辑标注、Shownote、标题和发布复盘，但这些能力彼此分散。每制作一期播客，仍然需要我记住当前进度、准备对应材料、判断下一步，再逐个调用不同的 AI 工具。AI 提升了单项任务的效率，但负责顾全整个制作流程的人仍然是我。',
+          '我把原本分散的播客 Skills 重构成 Podcast Producer Agent。<br/><br/><strong>How it works</strong> —— 它不只执行单项任务，还承担播客制作 PMO 角色：记录每期节目当前进行到哪一步，判断下一步应该做什么，自动调用剪辑标注、Shownote 或复盘等专项能力，并检查结果是否完成。<br/><br/><strong>我在其中的角色</strong> —— 选题、听感精剪、最终标题、内容质量和外部发布等需要创作判断的环节，Agent 会暂停并把决定权交还给我。',
+          '以前，我既负责内容创作，也要记进度、安排下一步和调用不同的 AI 工具。现在，我只需询问进度或说“继续 Double C”，Agent 就会判断下一步并推进制作流程；我只在内容质量和最终发布等关键环节做决定。'
         ],
+        agentFlowAriaLabel: '询问 Double C 制作进度时 Podcast Producer Agent 的工作方式',
+        agentFlowSpeaker: '我问 Codex',
+        agentFlowQuestion: '“Double C 最新一期播客制作进度到哪里了？”',
+        agentFlowIntro: '收到问题后，由这个 Agent 完成三件事：',
+        agentActionTitles: ['定位节目', '查看真实进度', '判断下一步'],
+        agentActionBodies: ['确认我问的是 Double C', '读取节目设置、当前状态和本集资料', '确认现在做到哪，以及接下来由谁完成'],
+        agentOutputLabels: ['Agent 更新', 'Agent 回复我'],
+        agentOutputTitles: ['Obsidian 播客制作中心', 'Codex 对话'],
+        agentOutputBodies: ['保存最新进度、下一步和相关资料入口，之后打开仍能看到。', '“Double C 当前进行到「当前阶段」；下一步是「下一步行动」；现在等待「对应负责人」。”'],
+        proofLabel: '专项 Workflow 结果',
         input: '33 分钟 · 5000+ 字精剪逐字稿',
         output: '结构化 Shownote 初稿',
-        time: '约 3 分钟',
-        beforeLabel: '逐字稿原文 · 上传即处理',
-        afterLabel: 'AI 生成 Shownote',
-        beforeBody: '<span style="opacity:.5">Chris 00:05</span><br/>这期其实是从想要聊一下我们的来时路……没有想到已经突破了订阅数 200 人，所以今天想趁着这个机会彼此的开诚布公的讲一下……其实也不单只是说想要庆祝这个数字而已，更想要就知道说……<br/><br/><span style="opacity:.5">Cici 01:04</span><br/>你先说。<br/><br/><span style="opacity:.5">Chris 01:04</span><br/>好，其实我们在很早之前的节目里面我们有坦诚过，特别是我在做这件事情，其实刚开始会看很多外在的目标，比如说……',
-        afterBody: '<span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ 简介撰写</span><br/>大家好～这期是节目做满半年、订阅突破 200 的阶段性回顾，聊聊：这段时间，我们自己有哪些真实的变化。<br/><br/><span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ 时间轴标注 · 金句提炼</span><br/><span class="ts">00:13</span>以为只是来庆祝 200 订阅——结果聊出了一整年的复盘<br/><span class="ts">01:33</span><strong>感受标签法</strong>：数据之外，开始记录「当下在不在状态」<br/><span class="ts">05:32</span>从「做了就好」到「做这件事的时候我是高兴的」<br/><span class="ts">13:32</span>把历期内容喂给 AI：收听量最高的几期，都是还卡在问题里的时候'
+        time: '约 3 分钟'
       },
       p3: {
         tags: ['Tool Calling', 'Agent 行为设计'],
@@ -1264,7 +1428,7 @@
         }
       ],
       aboutTitle: '通过 AI 重建生活方式的<br/><span class="em">内容创作者，产品运营人</span>',
-      aboutBody: '我想做 AI Agent 产品 / 增长运营，因为我擅长把复杂工具变成用户真正能跑通的使用路径。<br/><br/>过去我在字节负责 TikTok 内容安全自动化审核和全球数据指标体系，推动模型替代 50% 人工审核任务、审核人力减少 74%；在 TikTok 达人平台拆解注册到履约出单链路，通过样品策略、自动审核和达人分层提升核心转化与留存。<br/><br/>Gap 期我继续把这套能力迁移到 AI 场景：搭建播客内容 AI Workflow、飞书 Agent 和个人知识管理系统，把高频任务拆解为上下文、Skill、工具调用、人工确认和结果验证机制。<br/><br/>我希望在 AI Agent 产品 / 增长运营中提供的价值，是把用户真实任务、AI 能力和产品路径连接起来：识别用户在哪一步卡住，判断问题来自信息、流程、工具还是策略，并把有效方法沉淀为产品机制、增长实验或可复用 Workflow。',
+      aboutBody: '我想做 AI Agent 产品 / 增长运营，因为我擅长把复杂工具变成用户真正能跑通的使用路径。<br/><br/>过去我在字节负责 TikTok 内容安全自动化审核和全球数据指标体系，推动模型替代 50% 人工审核任务、审核人力减少 74%；在 TikTok 达人平台拆解注册到履约出单链路，通过样品策略、自动审核和达人分层提升核心转化与留存。<br/><br/>Gap 期我继续把这套能力迁移到 AI 场景：搭建 Podcast Producer Agent、飞书 Agent 和个人知识管理系统，把高频任务拆解为上下文、Skill、工具调用、人工确认和结果验证机制。<br/><br/>我希望在 AI Agent 产品 / 增长运营中提供的价值，是把用户真实任务、AI 能力和产品路径连接起来：识别用户在哪一步卡住，判断问题来自信息、流程、工具还是策略，并把有效方法沉淀为产品机制、增长实验或可复用 Workflow。',
       contactTitle: '想聊聊？<span class="serif em">随时</span>',
       contactEmail: 'charlotte.chan@163.com',
       contactStatus: 'Open to AI Agent PM/Ops',
@@ -1274,7 +1438,7 @@
       pageTitle: 'Cuiping Chen · AI Agent Product / Growth Ops',
       typewriter: 'Building AI Workflows for Content and Operations',
       nav: ['Projects', 'Experience', 'About', 'Contact'],
-      heroSub: 'Product operator and content creator with 6+ years of experience in user growth, data-driven operations, and workflow automation. Now exploring AI Agent Product / Growth Ops roles, with hands-on projects in podcast AI workflows, Lark agents, and personal knowledge systems.',
+      heroSub: 'Product operator and content creator with 6+ years of experience in user growth, data-driven operations, and workflow automation. Now exploring AI Agent Product / Growth Ops roles, with hands-on projects spanning a podcast production agent, Lark agents, and personal knowledge systems.',
       heroTag: 'Open to AI Agent Product / Growth Ops',
       cardName: 'Cuiping Chen',
       cardIntro: 'Product Operator · Content Creator<br/>Co-host, Double C Chatroom podcast',
@@ -1294,21 +1458,27 @@
         podcastPlatform: 'Xiaoyuzhou'
       },
       p2: {
-        tags: ['Workflow Skills', 'Context Design'],
-        title: 'Podcast AI Workflow',
-        subtitle: '— Four workflow skills, backed by a tracking and review agent',
+        tags: ['AI Agent Building', 'Agent Workflow Design'],
+        title: 'Podcast Producer Agent',
+        subtitle: '— An AI agent that serves as the PMO for podcast production',
         blocks: [
-          'Each podcast episode moves through several connected, judgment-heavy steps: a timestamped edit guide, show notes, titles, and post-release review. A generic chatbot can handle one-off prompts, but it needs the show\'s context explained again each time, and the quality is inconsistent.',
-          '<strong>Context</strong> — Each skill receives two layers of context. Stable context covers the show\'s positioning, audience, host voice, and examples of strong past show notes. Episode-specific context includes the current transcript, timestamps, and production stage.<br/><br/><strong>Workflow</strong> — I turned the edit guide, show notes, titles, and post-release review into four separate skills. Each has a defined input, output, and human approval point. Approved output flows into the next step, so the process does not reset for every episode. After publication, a tracking and review agent monitors the RSS feed, creates an episode archive draft, and schedules follow-up reminders.<br/><br/><strong>Quality control</strong> — No invented claims. Every point and timestamp must trace back to the transcript. Editorial choices and final wording stay with the human, and final edits are fed back into the skills to improve the next run.',
-          'For a 33-minute episode with a 5,000+ word edited transcript, the workflow produces a structured first draft of the show notes in about three minutes. End-to-end production time is down <strong>80%+</strong>, and content validation and post-release review are now standard steps.'
+          'I had already built AI skills to create editing notes, show notes, title options, and post-release reviews. But these skills worked in isolation: I still had to track each episode’s progress, prepare the right inputs, decide what came next, and trigger each tool myself. AI made individual tasks faster, but I was still coordinating the entire production process.',
+          'I turned these separate skills into a Podcast Producer Agent.<br/><br/><strong>How it works</strong> — Rather than completing one-off tasks, the agent serves as the podcast production PMO. It tracks where each episode is in the process, decides what should happen next, calls the appropriate editing, show notes, or review skill, and verifies that each step has been completed.<br/><br/><strong>My role</strong> — The agent pauses whenever editorial judgment is required. I remain responsible for topic selection, audio editing decisions, final titles, content quality, and publication.',
+          'Before, I had to create the content and manage the workflow. Now I can ask, “Where are we with Double C?” or simply say, “Continue Double C.” The agent handles the next step, while I step in only for key editorial and publishing decisions.'
         ],
+        agentFlowAriaLabel: 'How the Podcast Producer Agent handles a Double C production status request',
+        agentFlowSpeaker: 'I ask Codex',
+        agentFlowQuestion: '“What is the current production status of the latest Double C episode?”',
+        agentFlowIntro: 'The same agent handles three steps:',
+        agentActionTitles: ['Identify the show', 'Check the real status', 'Decide what comes next'],
+        agentActionBodies: ['Confirms that I mean Double C', 'Reads the show setup, current state, and episode materials', 'Determines where production stands and who acts next'],
+        agentOutputLabels: ['Agent updates', 'Agent replies to me'],
+        agentOutputTitles: ['Obsidian production hub', 'Codex conversation'],
+        agentOutputBodies: ['Saves the latest status, next step, and source links so they remain visible later.', '“Double C is currently at [current stage]. Next: [next action]. Waiting on: [owner].”'],
+        proofLabel: 'Specialist workflow result',
         input: '33-min episode · 5,000+ word edited transcript',
         output: 'show-notes first draft',
-        time: '~3 min',
-        beforeLabel: 'Raw transcript · uploaded directly',
-        afterLabel: 'AI-generated show notes',
-        beforeBody: '<span style="opacity:.5">Chris 00:05</span><br/>This episode started as a conversation about our path so far... We had just passed 200 subscribers, and wanted to use the moment to speak honestly about what changed for us — not just to celebrate the number, but to understand what it meant.<br/><br/><span style="opacity:.5">Cici 01:04</span><br/>You go first.<br/><br/><span style="opacity:.5">Chris 01:04</span><br/>Okay. We mentioned in earlier episodes that when I first started doing this, I paid a lot of attention to external goals...',
-        afterBody: '<span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ Intro draft</span><br/>In this episode, we look back on six months of making the podcast and passing 200 subscribers — and talk about what actually changed for us along the way.<br/><br/><span style="font-size:11px; font-family:var(--mono); color:var(--muted-soft);">▸ Timeline and highlights</span><br/><span class="ts">00:13</span>What began as a small milestone turned into a deeper review of the year<br/><span class="ts">01:33</span><strong>Feeling tags</strong>: tracking not just data, but whether we felt present while creating<br/><span class="ts">05:32</span>From “just finish it” to “do I feel alive while doing this?”<br/><span class="ts">13:32</span>Using AI to review past episodes: the most-listened episodes came from questions we were still living through'
+        time: '~3 min'
       },
       p3: {
         tags: ['Tool Calling', 'Agent Behavior Design'],
@@ -1344,7 +1514,7 @@
         }
       ],
       aboutTitle: 'Product operator and content creator<br/><span class="em">building practical AI workflows</span>',
-      aboutBody: 'I work where user behavior, workflow design, and AI adoption meet.<br/><br/>My background is in product operations and growth: mapping user journeys, finding friction, and turning messy processes into systems that scale. At ByteDance, I helped automate content safety review. On a TikTok creator platform, I improved the path from creator registration to fulfillment and GMV.<br/><br/>During my career break, I built a podcast AI workflow, a Lark agent, and a personal knowledge system. In each project, I break a recurring job into context, skills, tool calls, human checkpoints, and result validation, then improve the workflow through real use.<br/><br/>In AI Agent Product / Growth Ops, I can diagnose where users get stuck: missing context, a broken step, a tool limitation, or the wrong strategy. I then turn what works into product mechanisms, growth experiments, or reusable workflows.',
+      aboutBody: 'I work where user behavior, workflow design, and AI adoption meet.<br/><br/>My background is in product operations and growth: mapping user journeys, finding friction, and turning messy processes into systems that scale. At ByteDance, I helped automate content safety review. On a TikTok creator platform, I improved the path from creator registration to fulfillment and GMV.<br/><br/>During my career break, I built a Podcast Producer Agent, a Lark agent, and a personal knowledge system. In each project, I break a recurring job into context, skills, tool calls, human checkpoints, and result validation, then improve the workflow through real use.<br/><br/>In AI Agent Product / Growth Ops, I can diagnose where users get stuck: missing context, a broken step, a tool limitation, or the wrong strategy. I then turn what works into product mechanisms, growth experiments, or reusable workflows.',
       contactTitle: 'Want to talk?<span class="serif em"> Always open.</span>',
       contactEmail: 'charlotte.kong93@gmail.com',
       contactStatus: 'Open to AI Agent PM/Ops',
@@ -1411,15 +1581,32 @@
     setText('.podcast-card-platform', t.p1.podcastPlatform);
 
     setProject(projects[1], t.p2);
+    const p2AgentFlow = projects[1]?.querySelector('.p2-agent-flow');
+    if (p2AgentFlow) {
+      p2AgentFlow.setAttribute('aria-label', t.p2.agentFlowAriaLabel);
+      p2AgentFlow.querySelector('.p2-agent-speaker').textContent = t.p2.agentFlowSpeaker;
+      p2AgentFlow.querySelector('.p2-agent-message-copy').textContent = t.p2.agentFlowQuestion;
+      p2AgentFlow.querySelector('.p2-agent-card-intro').textContent = t.p2.agentFlowIntro;
+      p2AgentFlow.querySelectorAll('.p2-agent-action-title').forEach((element, index) => {
+        if (t.p2.agentActionTitles[index]) element.textContent = t.p2.agentActionTitles[index];
+      });
+      p2AgentFlow.querySelectorAll('.p2-agent-action-copy').forEach((element, index) => {
+        if (t.p2.agentActionBodies[index]) element.textContent = t.p2.agentActionBodies[index];
+      });
+      p2AgentFlow.querySelectorAll('.p2-agent-output-label').forEach((element, index) => {
+        if (t.p2.agentOutputLabels[index]) element.textContent = t.p2.agentOutputLabels[index];
+      });
+      p2AgentFlow.querySelectorAll('.p2-agent-output-title').forEach((element, index) => {
+        if (t.p2.agentOutputTitles[index]) element.textContent = t.p2.agentOutputTitles[index];
+      });
+      p2AgentFlow.querySelectorAll('.p2-agent-output-copy').forEach((element, index) => {
+        if (t.p2.agentOutputBodies[index]) element.textContent = t.p2.agentOutputBodies[index];
+      });
+    }
+    setText('.p2-proof-label', t.p2.proofLabel);
     setText('.project-flow-summary .flow-input', t.p2.input);
     setText('.project-flow-summary .flow-output', t.p2.output);
     setText('.project-flow-summary .flow-time', t.p2.time);
-    const compareLabels = projects[1].querySelectorAll('.compare-label');
-    if (compareLabels[0]) compareLabels[0].textContent = t.p2.beforeLabel;
-    if (compareLabels[1]) compareLabels[1].textContent = t.p2.afterLabel;
-    const compareBodies = projects[1].querySelectorAll('.compare-body');
-    if (compareBodies[0]) compareBodies[0].innerHTML = t.p2.beforeBody;
-    if (compareBodies[1]) compareBodies[1].innerHTML = t.p2.afterBody;
 
     setProject(projects[2], t.p3);
     const demoLabel = projects[2]?.querySelectorAll('.project-block-label')[3];
