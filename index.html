@@ -102,14 +102,14 @@
 
   /* ---------- hero ---------- */
   .hero {
-    padding: 96px 0 120px;
+    padding: 72px 0 56px;
     position: relative;
   }
   .hero-content {
     display: grid;
     grid-template-columns: 1fr 320px;
     gap: 64px;
-    align-items: stretch;
+    align-items: start;
   }
   @media (max-width: 900px) {
     .hero-content { grid-template-columns: 1fr; }
@@ -229,7 +229,43 @@
   }
   .hero-tag.show { animation: fadeUp .7s ease forwards .35s; }
 
-  body[data-lang="en"] h1.hero-title {
+  /* ---------- skills (in hero) ---------- */
+  .hero-skills {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .skills-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .skills-row-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    white-space: nowrap;
+    min-width: 88px;
+  }
+  .skills-row-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  body[data-lang="en"] .skills-row[data-skills-row="tools"] {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  @media (max-width: 540px) {
+    .skills-row { flex-direction: column; gap: 8px; }
+    .skills-row-label { min-width: 0; }
+  }
+    body[data-lang="en"] h1.hero-title {
     margin-top: 22px;
     font-size: clamp(34px, 4.5vw, 52px);
     line-height: 1.08;
@@ -862,6 +898,44 @@
     .podcast-card-meta { gap: 8px; flex-wrap: wrap; }
   }
 
+  /* ---------- creative card ---------- */
+  .section-warm .creative-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 36px;
+    border-bottom: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  .section-warm .creative-card .project {
+    border-bottom: none;
+    padding: 0;
+    opacity: 1;
+    transform: none;
+  }
+  .creative-title {
+    font-size: clamp(22px, 2.2vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .creative-subtitle {
+    font-size: 18px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .creative-desc {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin: 0;
+  }
+  @media (max-width: 760px) {
+    .section-warm .creative-card { padding: 24px; }
+  }
+
   .project-flow-summary {
     display: flex;
     align-items: center;
@@ -940,13 +1014,28 @@
         </h1>
 
         <p class="hero-sub" id="heroSub">
-          <strong>字节跳动风险治理产品运营出身，6 年+互联网运营经验。</strong>
-          主导过 TikTok 内容安全自动化审核落地与全球数据指标体系搭建；Gap 期用 AI 重建个人工作系统，现寻找 AI Agent 产品 / 增长运营方向机会。
+          <strong>现寻找 AI Agent 产品 / 增长运营方向机会（上海 / Remote）。</strong>
+          字节跳动风险治理产品运营出身，6年+互联网运营经验。主导 TikTok 内容安全自动化审核落地；Gap 期用 AI 重建个人工作系统。
         </p>
 
         <div class="hero-tag" id="heroTag">
           <span class="pulse-dot"></span>
           <span>开放求职中 · AI Agent 产品 / 增长运营</span>
+        </div>
+
+        <div class="hero-skills" id="heroSkills">
+          <div class="skills-row" data-skills-row="ops">
+            <span class="skills-row-label" data-skills-label="ops">运营能力</span>
+            <div class="skills-row-tags" data-skills-tags="ops"></div>
+          </div>
+          <div class="skills-row" data-skills-row="ai">
+            <span class="skills-row-label" data-skills-label="ai">AI / Agent</span>
+            <div class="skills-row-tags" data-skills-tags="ai"></div>
+          </div>
+          <div class="skills-row" data-skills-row="tools">
+            <span class="skills-row-label" data-skills-label="tools">工具链</span>
+            <div class="skills-row-tags" data-skills-tags="tools"></div>
+          </div>
         </div>
       </div>
 
@@ -974,58 +1063,10 @@
 
     <div class="projects">
 
-      <!-- Project 1 -->
+      <!-- Project 1 (was P·02) -->
       <article class="project" data-project>
         <div class="project-meta">
           <div class="project-index">P · 01</div>
-          <div class="project-tags">
-            <span class="project-tag level-1">深度对话</span>
-            <span class="project-tag level-2">方法论沉淀</span>
-          </div>
-        </div>
-
-        <div class="project-body">
-          <h3 class="project-title">播客「Double C 聊天室」</h3>
-          <div class="project-subtitle">— 19 期对话与内容方法论</div>
-
-          <div class="project-block">
-            <div class="project-block-label">Problem</div>
-            <div class="project-block-content">
-              双周更的播客，最难的不是内容，是如何在每期对话里真正进入对方的语境——不抢节奏，不自说自话，让对方主动说出他们真正想说的东西。
-            </div>
-          </div>
-
-          <div class="project-block">
-            <div class="project-block-label">Action</div>
-            <div class="project-block-content">
-              与 Cici 共同主持，面向 25–35 岁一线城市年轻人；建立从<strong>选题确认 → 录制复盘 → 洞察提炼 → 方法论归档</strong>的完整循环。每期结束后系统性总结延伸选题、对话节奏规律，沉淀到可复用的内容方法论库中。
-            </div>
-          </div>
-
-          <div class="project-block">
-            <div class="project-block-label">Result</div>
-            <div class="project-block-content">
-              <div style="margin-bottom: 10px; font-size: 15px; color: var(--ink-soft);">持续更新 19 期，从每期对话中提炼内容结构规律，形成可复用的方法论文档，指导后续选题与录制节奏。</div>
-              <a class="podcast-card" data-project-persistent href="https://www.xiaoyuzhoufm.com/podcast/686a159255191cce1a66418d" target="_blank" rel="noopener">
-                <img class="podcast-card-cover" src="https://image.xyzcdn.net/FnbXXNR4rdvfduARqWixQwC1En8J.jpg" alt="Double C 聊天室封面" />
-                <div class="podcast-card-info">
-                  <div class="podcast-card-title">Double C 聊天室</div>
-                  <div class="podcast-card-desc">我们是 Cici 和 Chris，两位 30+ 的互联网大厂「毕业生」</div>
-                  <div class="podcast-card-meta">
-                    <span class="podcast-card-subs">350 人已订阅</span>
-                    <span class="podcast-card-platform">小宇宙</span>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Project 2 -->
-      <article class="project" data-project>
-        <div class="project-meta">
-          <div class="project-index">P · 02</div>
           <div class="project-tags">
             <span class="project-tag level-1">AI Agent 搭建</span>
             <span class="project-tag level-2">Agent 工作流设计</span>
@@ -1118,7 +1159,7 @@
       <!-- Project 3 -->
       <article class="project" data-project>
         <div class="project-meta">
-          <div class="project-index">P · 03</div>
+          <div class="project-index">P · 02</div>
           <div class="project-tags">
             <span class="project-tag level-1">Tool Calling</span>
             <span class="project-tag">Agent 行为设计</span>
@@ -1173,7 +1214,7 @@
       <!-- Project 4 -->
       <article class="project" data-project>
         <div class="project-meta">
-          <div class="project-index">P · 04</div>
+          <div class="project-index">P · 03</div>
           <div class="project-tags">
             <span class="project-tag">Vibe Coding</span>
             <span class="project-tag">Shipped</span>
@@ -1275,11 +1316,47 @@
   </div>
 </section>
 
+<!-- ============ CREATIVE ============ -->
+<section class="section section-warm" id="creative">
+  <div class="wrap">
+    <div class="section-head section-head-center">
+      <div class="section-num">03 — Content</div>
+      <h2 class="section-title" id="creativeTitle">内容创作</h2>
+    </div>
+    <div class="creative-card">
+      <article class="project" data-creative>
+        <div class="project-meta">
+          <div class="project-tags" id="creativeMeta">
+            <span class="project-tag level-1">深度对话</span>
+            <span class="project-tag level-2">方法论沉淀</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title creative-title" id="creativePodcastTitle">播客「Double C 聊天室」</h3>
+          <div class="project-subtitle creative-subtitle" id="creativePodcastSubtitle">— 19 期对话与内容方法论</div>
+          <p class="creative-desc" id="creativePodcastDesc">与 Cici 共同主持，面向25–35岁一线城市年轻人围绕个人成长、职场工作议题的经验分享；建立从选题确认 → 录制复盘 → 洞察提炼 → 方法论归档的完整循环。从每期对话中提炼内容结构规律，形成可复用的方法论文档，指导后续选题与录制节奏。</p>
+          <a class="podcast-card" href="https://www.xiaoyuzhoufm.com/podcast/686a159255191cce1a66418d" target="_blank" rel="noopener">
+            <img class="podcast-card-cover" src="https://image.xyzcdn.net/FnbXXNR4rdvfduARqWixQwC1En8J.jpg" alt="Double C 聊天室封面" />
+            <div class="podcast-card-info">
+              <div class="podcast-card-title">Double C 聊天室</div>
+              <div class="podcast-card-desc">我们是 Cici 和 Chris，两位 30+ 的互联网大厂「毕业生」</div>
+              <div class="podcast-card-meta">
+                <span class="podcast-card-subs">350 人已订阅</span>
+                <span class="podcast-card-platform">小宇宙</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <!-- ============ ABOUT ============ -->
 <section class="section" id="about" style="padding-bottom: 32px;">
   <div class="wrap">
     <div class="section-head">
-      <div class="section-num">03 — About Me</div>
+      <div class="section-num">04 — About Me</div>
       <div>
         <h2 class="section-title">
           通过 AI 重建生活方式的<br/>
@@ -1303,7 +1380,7 @@
 <section class="section" id="contact" style="padding-bottom: 64px;">
   <div class="wrap">
     <div class="section-head" style="margin-bottom: 0;">
-      <div class="section-num">04 — Contact</div>
+      <div class="section-num">05 — Contact</div>
       <div>
         <h2 class="section-title">
           想聊聊？<span class="serif em">随时</span>
@@ -1342,7 +1419,7 @@
 <footer>
   <div class="wrap" style="display:flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
     <div>© 2026 Cuiping Chen · Built with care, edited by hand.</div>
-    <div>Last updated · July 2026</div>
+    <div>Last updated · September 2026</div>
   </div>
 </footer>
 
@@ -1352,20 +1429,23 @@
       pageTitle: '陈翠萍 · AI Agent 产品 / 增长运营',
       typewriter: '用 AI 重构创作与运营工作方式',
       nav: ['作品', '经历', '关于', '联系'],
-      heroSub: '<strong>字节跳动风险治理产品运营出身，6 年+互联网运营经验。</strong> 主导过 TikTok 内容安全自动化审核落地与全球数据指标体系搭建；Gap 期用 AI 重建个人工作系统，现寻找 AI Agent 产品 / 增长运营方向机会。',
+      heroSub: '<strong>现寻找 AI Agent 产品 / 增长运营方向机会（上海 / Remote）。</strong> 字节跳动风险治理产品运营出身，6年+互联网运营经验。主导 TikTok 内容安全自动化审核落地；Gap 期用 AI 重建个人工作系统。',
       heroTag: '开放求职中 · AI Agent 产品 / 增长运营',
+      skills: {
+        labels: { ops: '运营能力', ai: 'AI / Agent', tools: '工具链' },
+        ops: ['用户增长', '裂变增长', '流程优化', '自动化策略', '数据指标体系'],
+        ai: ['Skill 开发', 'Workflow 设计', 'Agent 搭建', '人机协作设计'],
+        tools: ['Claude Code', 'Codex', '飞书 lark-cli', 'Obsidian']
+      },
       cardName: '陈翠萍',
       cardIntro: '内容创作者 · 产品运营<br/>播客「Double C 聊天室」主播',
       projectsTitle: '经历项目',
+      creativeTitle: '内容创作',
       p1: {
         tags: ['深度对话', '方法论沉淀'],
         title: '播客「Double C 聊天室」',
         subtitle: '— 19 期对话与内容方法论',
-        blocks: [
-          '双周更的播客，最难的不是内容，是如何在每期对话里真正进入对方的语境——不抢节奏，不自说自话，让对方主动说出他们真正想说的东西。',
-          '与 Cici 共同主持，面向 25–35 岁一线城市年轻人；建立从<strong>选题确认 → 录制复盘 → 洞察提炼 → 方法论归档</strong>的完整循环。每期结束后系统性总结延伸选题、对话节奏规律，沉淀到可复用的内容方法论库中。',
-          '持续更新 19 期，从每期对话中提炼内容结构规律，形成可复用的方法论文档，指导后续选题与录制节奏。'
-        ],
+        desc: '与 Cici 共同主持，面向25–35岁一线城市年轻人围绕个人成长、职场工作议题的经验分享；建立从选题确认 → 录制复盘 → 洞察提炼 → 方法论归档的完整循环。从每期对话中提炼内容结构规律，形成可复用的方法论文档，指导后续选题与录制节奏。',
         podcastTitle: 'Double C 聊天室',
         podcastDesc: '我们是 Cici 和 Chris，两位 30+ 的互联网大厂「毕业生」',
         podcastSubs: '350 人已订阅',
@@ -1432,26 +1512,29 @@
       contactTitle: '想聊聊？<span class="serif em">随时</span>',
       contactEmail: 'charlotte.chan@163.com',
       contactStatus: 'Open to AI Agent PM/Ops',
-      footerUpdated: 'Last updated · July 2026'
+      footerUpdated: 'Last updated · September 2026'
     },
     en: {
       pageTitle: 'Cuiping Chen · AI Agent Product / Growth Ops',
       typewriter: 'Building AI Workflows for Content and Operations',
       nav: ['Projects', 'Experience', 'About', 'Contact'],
-      heroSub: 'Product operator and content creator with 6+ years of experience in user growth, data-driven operations, and workflow automation. Now exploring AI Agent Product / Growth Ops roles, with hands-on projects spanning a podcast production agent, Lark agents, and personal knowledge systems.',
+      heroSub: 'Now exploring AI Agent Product / Growth Ops roles. Product operation Specialist with 6+ years in user growth and workflow automation at ByteDance. Built a Podcast Producer Agent, Lark Agent, and personal knowledge system.',
       heroTag: 'Open to AI Agent Product / Growth Ops',
+      skills: {
+        labels: { ops: 'Operations', ai: 'AI / Agent', tools: 'Toolchain' },
+        ops: ['User Growth', 'Referral Growth', 'Process Optimization', 'Automation Strategy', 'Data Metrics'],
+        ai: ['Skill Development', 'Workflow Design', 'Agent Create', 'Human-AI Collaboration'],
+        tools: ['Claude Code', 'Codex', 'Lark CLI', 'Obsidian']
+      },
       cardName: 'Cuiping Chen',
       cardIntro: 'Product Operator · Content Creator<br/>Co-host, Double C Chatroom podcast',
       projectsTitle: 'Projects',
+      creativeTitle: 'Content',
       p1: {
-        tags: ['Podcast', 'Content Systems'],
+        tags: ['Deep Conversations', 'Content Systems'],
         title: 'Double C Chatroom',
         subtitle: '— 19 episodes, one growing content system',
-        blocks: [
-          'The challenge was not just publishing episodes. It was building a repeatable way to turn open-ended conversations into thoughtful, useful content without losing the honesty and texture of the original dialogue.',
-          'Co-hosted the show with Cici for young urban listeners navigating work, relationships, money, and self-understanding. Built a repeatable loop for topic alignment, recording review, insight extraction, and content methodology archiving.',
-          'Published 19 episodes and turned recurring conversation patterns into reusable notes that guide future topics, recording rhythm, and content decisions.'
-        ],
+        desc: 'Co-hosted with Cici. We talk to young people figuring out their careers and personal growth. Every two weeks, we pick a topic, record, review, and pull out insights we can actually reuse next time. Over 19 episodes in, we\'ve built a playbook that keeps the conversations getting better.',
         podcastTitle: 'Double C Chatroom',
         podcastDesc: 'A podcast by Cici and Chris, two 30+ former internet company operators navigating life after Big Tech.',
         podcastSubs: '350 subscribers',
@@ -1518,7 +1601,7 @@
       contactTitle: 'Want to talk?<span class="serif em"> Always open.</span>',
       contactEmail: 'charlotte.kong93@gmail.com',
       contactStatus: 'Open to AI Agent PM/Ops',
-      footerUpdated: 'Last updated · July 2026'
+      footerUpdated: 'Last updated · September 2026'
     }
   };
 
@@ -1571,17 +1654,52 @@
     setText('#heroTag span:last-child', t.heroTag);
     setText('.hero-card-name', t.cardName);
     setHTML('.hero-card-intro', t.cardIntro);
+
+    // Skills section
+    const skillsData = t.skills;
+    if (skillsData) {
+      setText('[data-skills-label="ops"]', skillsData.labels.ops);
+      setText('[data-skills-label="ai"]', skillsData.labels.ai);
+      setText('[data-skills-label="tools"]', skillsData.labels.tools);
+
+      const renderTags = (selector, tags) => {
+        const container = document.querySelector(selector);
+        if (!container) return;
+        container.innerHTML = '';
+        tags.forEach(tag => {
+          const span = document.createElement('span');
+          span.className = 'project-tag';
+          span.textContent = tag;
+          container.appendChild(span);
+        });
+      };
+
+      renderTags('[data-skills-tags="ops"]', skillsData.ops);
+      renderTags('[data-skills-tags="ai"]', skillsData.ai);
+      renderTags('[data-skills-tags="tools"]', skillsData.tools);
+    }
+
     setText('#work .section-title', t.projectsTitle);
 
-    const projects = document.querySelectorAll('[data-project]');
-    setProject(projects[0], t.p1);
+    // Creative section
+    setText('#creativeTitle', t.creativeTitle);
+    setText('#creativePodcastTitle', t.p1.title);
+    setText('#creativePodcastSubtitle', t.p1.subtitle);
+    setText('#creativePodcastDesc', t.p1.desc);
+    const creativeTagEls = document.querySelectorAll('#creative .creative-meta .project-tag');
+    if (t.p1.tags) {
+      creativeTagEls.forEach((tag, index) => {
+        if (t.p1.tags[index]) tag.textContent = t.p1.tags[index];
+      });
+    }
     setText('.podcast-card-title', t.p1.podcastTitle);
     setText('.podcast-card-desc', t.p1.podcastDesc);
     setText('.podcast-card-subs', t.p1.podcastSubs);
     setText('.podcast-card-platform', t.p1.podcastPlatform);
 
-    setProject(projects[1], t.p2);
-    const p2AgentFlow = projects[1]?.querySelector('.p2-agent-flow');
+    const projects = document.querySelectorAll('[data-project]');
+    setProject(projects[0], t.p2);
+    const p2AgentFlow = projects[0]?.querySelector('.p2-agent-flow');
     if (p2AgentFlow) {
       p2AgentFlow.setAttribute('aria-label', t.p2.agentFlowAriaLabel);
       p2AgentFlow.querySelector('.p2-agent-speaker').textContent = t.p2.agentFlowSpeaker;
@@ -1608,16 +1726,16 @@
     setText('.project-flow-summary .flow-output', t.p2.output);
     setText('.project-flow-summary .flow-time', t.p2.time);
 
-    setProject(projects[2], t.p3);
-    const demoLabel = projects[2]?.querySelectorAll('.project-block-label')[3];
+    setProject(projects[1], t.p3);
+    const demoLabel = projects[1]?.querySelectorAll('.project-block-label')[3];
     if (demoLabel) demoLabel.textContent = t.p3.demo;
 
-    if (projects[3]) {
-      projects[3].querySelector('.project-title').textContent = t.p4.title;
-      projects[3].querySelector('.project-subtitle').textContent = t.p4.subtitle;
-      projects[3].querySelectorAll('.project-block-label')[0].textContent = t.p4.validation;
-      projects[3].querySelectorAll('.project-block-content')[0].innerHTML = t.p4.body;
-      const live = projects[3].querySelector('[style*="margin-top:6px"]');
+    if (projects[2]) {
+      projects[2].querySelector('.project-title').textContent = t.p4.title;
+      projects[2].querySelector('.project-subtitle').textContent = t.p4.subtitle;
+      projects[2].querySelectorAll('.project-block-label')[0].textContent = t.p4.validation;
+      projects[2].querySelectorAll('.project-block-content')[0].innerHTML = t.p4.body;
+      const live = projects[2].querySelector('[style*="margin-top:6px"]');
       if (live) live.textContent = t.p4.live;
     }
 
